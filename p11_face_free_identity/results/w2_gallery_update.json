@@ -1,0 +1,7442 @@
+{
+ "doc": "Item 11.7: changing galleries, erroneous updates, contamination from false matches and stale identity evidence.\n\nPRE-REGISTERED BEFORE THE FIRST RUN (2026-10-07, wave 2):\n  Setup. All 1,754 test tracklets of a cache form a pool. Per draw (seed 0..9): floor(30 percent) of each identity's tracklets are\n  held out as evaluation probes V; one random remaining tracklet per identity is the enrolment memory M0 (54\n  entries); the other tracklets are a stream S in random order. A policy decides for every stream tracklet whether\n  to add it to the memory, and under which identity label. Probe matching removes same-camera memory entries\n  (label-free). Rank-1 and mAP are computed on one fixed probe set per draw (probes with a cross-camera same-identity\n  tracklet anywhere in enrolment plus stream); a probe whose positives never entered the memory scores as a Rank-1\n  miss and AP 0, so policies are comparable and coverage is part of the measure; checkpoints after 0, 25, 50,\n  75 and 100 percent of the stream.\n  Policies: none (enrolment only, stale evidence), oracle (true identity label), self@t (add under the predicted\n  identity when the cross-camera top-1 similarity >= tau; tau from leave-one-identity-out on M0 at false-accept\n  target t = 1, 5, 10 percent), self_all (always add under the predicted identity), inject@e (oracle updates whose\n  label is replaced by a random other identity with probability e = 0.05, 0.1, 0.2, 0.4), and capped variants\n  (cap = 4 most recent entries per identity, enrolment entry included in the count) of oracle and self@5.\n  Hypotheses and falsification criteria:\n   H1 (updates help): oracle minus none final Rank-1, identity-cluster 95 percent CI above 0. FALSIFIED otherwise.\n   H2 (self-update helps despite contamination): self@5 minus none final Rank-1 CI above 0. FALSIFIED otherwise; the\n      contamination rate of self@5 additions is reported with its CI.\n   H3 (erroneous updates harm): inject@0.4 minus oracle final Rank-1 CI below 0. FALSIFIED otherwise.\n   H4 (evidence expiry protects): capped self@5 minus uncapped self@5 final Rank-1 CI above 0. FALSIFIED otherwise.\n  Intervals: identity-cluster paired bootstrap and sign-flip (p11lib.cluster_paired), per encoder, draws pooled per\n  identity; Holm over the four hypotheses per encoder.\nOutputs results/w2_gallery_update.json.\nusage: python3 -I w2_gallery_update.py\n",
+ "encoders": {
+  "g002": {
+   "contamination_of_additions": {
+    "inject@0.05": {
+     "ci": [
+      0.04807997612393047,
+      0.055472212276723554
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.051836393989983305
+    },
+    "inject@0.1": {
+     "ci": [
+      0.09413655911784287,
+      0.1045341166525782
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.09908180300500835
+    },
+    "inject@0.2": {
+     "ci": [
+      0.19343809938421158,
+      0.20793678519442713
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.2006677796327212
+    },
+    "inject@0.4": {
+     "ci": [
+      0.3912681321735304,
+      0.4088363899462078
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.3996661101836394
+    },
+    "oracle": {
+     "ci": [
+      0.0,
+      0.0
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.0
+    },
+    "oracle_cap4": {
+     "ci": [
+      0.0,
+      0.0
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.0
+    },
+    "self@0.01": {
+     "ci": [
+      0.19527553904888859,
+      0.39334818930235377
+     ],
+     "n_den": 2853.0,
+     "n_identities": 52,
+     "point": 0.290571328426218
+    },
+    "self@0.05": {
+     "ci": [
+      0.2975372377480735,
+      0.4690016653434765
+     ],
+     "n_den": 5068.0,
+     "n_identities": 52,
+     "point": 0.3823993685872139
+    },
+    "self@0.05_cap4": {
+     "ci": [
+      0.2837858634390868,
+      0.45498637814693277
+     ],
+     "n_den": 3943.0,
+     "n_identities": 52,
+     "point": 0.36875475526249046
+    },
+    "self@0.1": {
+     "ci": [
+      0.36765923657998345,
+      0.5417050746168425
+     ],
+     "n_den": 6634.0,
+     "n_identities": 52,
+     "point": 0.45598432318359966
+    },
+    "self_all": {
+     "ci": [
+      0.6171600218284541,
+      0.7246171526827385
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.6729549248747914
+    }
+   },
+   "hypotheses": {
+    "H1_oracle_minus_none": {
+     "ci": [
+      0.3450254358276841,
+      0.44069541571503534
+     ],
+     "diff": 0.39281644354890966,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 9.999000099990002e-05,
+     "p_holm_four": 0.00039996000399960006
+    },
+    "H2_self5_minus_none": {
+     "ci": [
+      0.055013984550360384,
+      0.1263193155865313
+     ],
+     "diff": 0.08977870435873826,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 0.00029997000299970003,
+     "p_holm_four": 0.00039996000399960006
+    },
+    "H3_inject0.4_minus_oracle": {
+     "ci": [
+      -0.29696722204548837,
+      -0.24255683445435286
+     ],
+     "diff": -0.2700012846944408,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 9.999000099990002e-05,
+     "p_holm_four": 0.00039996000399960006
+    },
+    "H4_cap_self5_minus_self5": {
+     "ci": [
+      -0.07290321957297352,
+      -0.028033435844415755
+     ],
+     "diff": -0.05027615436976296,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 0.00019998000199980003,
+     "p_holm_four": 0.00039996000399960006
+    },
+    "extra_oracle_cap_minus_oracle": {
+     "ci": [
+      -0.2302835418258212,
+      -0.13579196559159798
+     ],
+     "diff": -0.18148465065603075,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 9.999000099990002e-05
+    },
+    "extra_self_all_minus_none": {
+     "ci": [
+      -0.0044953583526830135,
+      0.05101569235816973
+     ],
+     "diff": 0.022847361914104,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 0.12298770122987701
+    }
+   },
+   "policies": {
+    "inject@0.05": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.03438208616780045,
+        0.20889922480620152
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.2750969855987329,
+        0.3962621601591347
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.33219886983758046
+      },
+      "rank1": {
+       "ci": [
+        0.27957337519936204,
+        0.43513839113308095
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3533864541832669
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.02867795684239279,
+        0.20301297598835796
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09792284866468842
+      },
+      "mAP": {
+       "ci": [
+        0.2930409715269458,
+        0.41960649114937554
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3537284444114191
+      },
+      "rank1": {
+       "ci": [
+        0.3897533537562937,
+        0.5588213708325939
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4750996015936255
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.030639957933033937,
+        0.20708261863922234
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09792284866468842
+      },
+      "mAP": {
+       "ci": [
+        0.3116518661817097,
+        0.43905745685344993
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3724698958862943
+      },
+      "rank1": {
+       "ci": [
+        0.5026019431094632,
+        0.647222197567224
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.5743027888446215
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.0279174066099857,
+        0.18361220118087548
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.08902077151335312
+      },
+      "mAP": {
+       "ci": [
+        0.3442321188962602,
+        0.45734113542348587
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.39984950918731305
+      },
+      "rank1": {
+       "ci": [
+        0.6205214446277159,
+        0.726623706516217
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.6745019920318726
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "inject@0.1": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.03988883242701019,
+        0.20533124310069908
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.24698383653025055,
+        0.36890786389351915
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3051862997644022
+      },
+      "rank1": {
+       "ci": [
+        0.2750827300121317,
+        0.4175118488710038
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3426294820717131
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.03212487476558686,
+        0.19742036265621163
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09792284866468842
+      },
+      "mAP": {
+       "ci": [
+        0.25836856559543303,
+        0.3815394843586822
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3176377381168058
+      },
+      "rank1": {
+       "ci": [
+        0.3766413995778934,
+        0.5322520790020789
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4545816733067729
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.032162861974212635,
+        0.19608387799564267
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09495548961424333
+      },
+      "mAP": {
+       "ci": [
+        0.2805284255891745,
+        0.4036599414679366
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.33839313448839015
+      },
+      "rank1": {
+       "ci": [
+        0.47269555412635084,
+        0.6103228947368421
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.5410358565737052
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.029812812135231508,
+        0.17113294567606382
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.08605341246290801
+      },
+      "mAP": {
+       "ci": [
+        0.31706327530192213,
+        0.42002297725513554
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3675400154536182
+      },
+      "rank1": {
+       "ci": [
+        0.5784996513944223,
+        0.6898925297113753
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.6352589641434263
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "inject@0.2": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.02924974262182567,
+        0.18565363803822238
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09198813056379822
+      },
+      "mAP": {
+       "ci": [
+        0.21341388275720638,
+        0.32442524022791214
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.2663561201238178
+      },
+      "rank1": {
+       "ci": [
+        0.2653308881675566,
+        0.3812011437284033
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3207171314741036
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.027209345276572167,
+        0.1980693069306928
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09495548961424333
+      },
+      "mAP": {
+       "ci": [
+        0.2087666203675973,
+        0.3217282181656812
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.2635642752620833
+      },
+      "rank1": {
+       "ci": [
+        0.35159853852223694,
+        0.4904340855633958
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4199203187250996
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.024874498837640244,
+        0.1889706882224067
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.08902077151335312
+      },
+      "mAP": {
+       "ci": [
+        0.2283325626295952,
+        0.3376387120315965
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.2794874438130381
+      },
+      "rank1": {
+       "ci": [
+        0.4300948491747296,
+        0.5498988394014654
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.48804780876494025
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.023054044061883813,
+        0.1728663446054749
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.2621195296380296,
+        0.3496661831256343
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30384065064168114
+      },
+      "rank1": {
+       "ci": [
+        0.5093672130742021,
+        0.6092404136000883
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.5581673306772909
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "inject@0.4": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.03625104648200051,
+        0.14655588470243638
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.08011869436201781
+      },
+      "mAP": {
+       "ci": [
+        0.1615418335795317,
+        0.24635723459267742
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.20129946471708385
+      },
+      "rank1": {
+       "ci": [
+        0.24941622340425532,
+        0.3447516120542176
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.29601593625498007
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.032677077345596224,
+        0.16062582545971754
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.14494581379265914,
+        0.2247253071894939
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.18388086528370742
+      },
+      "rank1": {
+       "ci": [
+        0.30163136164441995,
+        0.4040057082452431
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.35278884462151394
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.029600425696594428,
+        0.1386612978524743
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0712166172106825
+      },
+      "mAP": {
+       "ci": [
+        0.15759797388864005,
+        0.2315206703282198
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.1932705887331734
+      },
+      "rank1": {
+       "ci": [
+        0.3521476616124404,
+        0.4462214921634646
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.39681274900398406
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.02428103302092165,
+        0.12742779922779915
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.06528189910979229
+      },
+      "mAP": {
+       "ci": [
+        0.17423371719246397,
+        0.23649902235551093
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.2052469481078481
+      },
+      "rank1": {
+       "ci": [
+        0.3980701215404987,
+        0.4821026467195089
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.44043824701195217
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "none": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "oracle": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.03554349487845895,
+        0.22595791165983048
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10979228486646884
+      },
+      "mAP": {
+       "ci": [
+        0.2980510705213001,
+        0.4289371660461793
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3600788904998966
+      },
+      "rank1": {
+       "ci": [
+        0.2859627262808666,
+        0.45694703438560164
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3665338645418327
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.030602752728998577,
+        0.22168856048166385
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10682492581602374
+      },
+      "mAP": {
+       "ci": [
+        0.3332836523941258,
+        0.4688614449405617
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3974206876991136
+      },
+      "rank1": {
+       "ci": [
+        0.4043905641098755,
+        0.5852786187322611
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4964143426294821
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.03105197501570242,
+        0.22095090979857923
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.35514858212264006,
+        0.49197357041569867
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.41982850448743886
+      },
+      "rank1": {
+       "ci": [
+        0.5258439684473802,
+        0.6813640186311295
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.6029880478087649
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.02869441816461684,
+        0.19580599812558575
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09495548961424333
+      },
+      "mAP": {
+       "ci": [
+        0.3792410435262278,
+        0.5079810064312567
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.44254567500861475
+      },
+      "rank1": {
+       "ci": [
+        0.6522774219495394,
+        0.7668695951590688
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.7105577689243028
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "oracle_cap4": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.047025835396039606,
+        0.2222306910569105
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10979228486646884
+      },
+      "mAP": {
+       "ci": [
+        0.32666675100793696,
+        0.4311941708691844
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3762925536900502
+      },
+      "rank1": {
+       "ci": [
+        0.27463418172774,
+        0.40332617697007894
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.33386454183266934
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.0401491395793499,
+        0.19674624446799213
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09792284866468842
+      },
+      "mAP": {
+       "ci": [
+        0.3384256315697558,
+        0.4537705056051169
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.39408379970095087
+      },
+      "rank1": {
+       "ci": [
+        0.3183482415902141,
+        0.4606367507830922
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3848605577689243
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.04741954583449429,
+        0.2103347531673219
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10682492581602374
+      },
+      "mAP": {
+       "ci": [
+        0.3497421950917022,
+        0.4665994778784581
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4060187307621084
+      },
+      "rank1": {
+       "ci": [
+        0.36835384919559755,
+        0.5153584835890095
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4400398406374502
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.0580108880605089,
+        0.22676892318265596
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.13353115727002968
+      },
+      "mAP": {
+       "ci": [
+        0.3619137680499235,
+        0.48349848063334827
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4238952729917945
+      },
+      "rank1": {
+       "ci": [
+        0.4152293687418992,
+        0.5675414019424552
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4914342629482072
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "self@0.01": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.049709430344112515,
+        0.1768748169124109
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10682492581602374
+      },
+      "mAP": {
+       "ci": [
+        0.323630570559339,
+        0.42968702570830386
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3735555896571998
+      },
+      "rank1": {
+       "ci": [
+        0.26553662606951234,
+        0.37065165677885614
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3157370517928287
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.05247666462898524,
+        0.16329326251048348
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3158836634462697,
+        0.4271105023899412
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.36871824510158874
+      },
+      "rank1": {
+       "ci": [
+        0.27811299276447105,
+        0.39004275961032825
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.33207171314741035
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.053238866396761134,
+        0.16510134805714002
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3224061265462454,
+        0.4459565615575926
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.38062600296041704
+      },
+      "rank1": {
+       "ci": [
+        0.29694996406755303,
+        0.4228386900294085
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.35816733067729084
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.058305857407898225,
+        0.17142857142857143
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10979228486646884
+      },
+      "mAP": {
+       "ci": [
+        0.3263131293448635,
+        0.46448662503623206
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3926520339361023
+      },
+      "rank1": {
+       "ci": [
+        0.31365088383838385,
+        0.45090290737078603
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.38107569721115536
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "self@0.05": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.04031451612903226,
+        0.21053838725253493
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3203487891440763,
+        0.4286198049242132
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37161612468635574
+      },
+      "rank1": {
+       "ci": [
+        0.2722511683679744,
+        0.38667326732673263
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32709163346613546
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.04285355348169419,
+        0.18260388699048066
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09792284866468842
+      },
+      "mAP": {
+       "ci": [
+        0.3144381574195527,
+        0.4241971044605413
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.36623368844161236
+      },
+      "rank1": {
+       "ci": [
+        0.29551228536095847,
+        0.4134507498924334
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3529880478087649
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.031246960116731518,
+        0.17409464027040075
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.08605341246290801
+      },
+      "mAP": {
+       "ci": [
+        0.3155418567684068,
+        0.43569445038100063
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3734666389272914
+      },
+      "rank1": {
+       "ci": [
+        0.3164619766303241,
+        0.4477158242031872
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3808764940239044
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.039092214312734276,
+        0.19529534475186644
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09792284866468842
+      },
+      "mAP": {
+       "ci": [
+        0.31943050254667793,
+        0.449261148814964
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.38334255708084913
+      },
+      "rank1": {
+       "ci": [
+        0.34026943960387623,
+        0.47871183465790274
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40936254980079684
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "self@0.05_cap4": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.04917162646618635,
+        0.16737153308445865
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09495548961424333
+      },
+      "mAP": {
+       "ci": [
+        0.33960485009737224,
+        0.43375685685161786
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.38371490529744706
+      },
+      "rank1": {
+       "ci": [
+        0.2739892504930967,
+        0.3749048416043231
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3215139442231076
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.04998762376237624,
+        0.1417293233082705
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.08902077151335312
+      },
+      "mAP": {
+       "ci": [
+        0.33965867217099716,
+        0.4345342057119478
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.38394542875631005
+      },
+      "rank1": {
+       "ci": [
+        0.2829981707317073,
+        0.3875876262386799
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3314741035856574
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.0371114929362352,
+        0.13406786627694553
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0771513353115727
+      },
+      "mAP": {
+       "ci": [
+        0.3337150687909474,
+        0.43663923398857024
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3817811255326326
+      },
+      "rank1": {
+       "ci": [
+        0.28800816356046943,
+        0.39804368083867203
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.33924302788844624
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.03580016564880632,
+        0.13236637678327137
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.07418397626112759
+      },
+      "mAP": {
+       "ci": [
+        0.3372034837076047,
+        0.44745113371260337
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3901526648987762
+      },
+      "rank1": {
+       "ci": [
+        0.2928183245954985,
+        0.4134430012463
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.351195219123506
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "self@0.1": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.048379342431761785,
+        0.21783078307830778
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.11275964391691394
+      },
+      "mAP": {
+       "ci": [
+        0.3105623844947492,
+        0.4260662228542673
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.36423845166868085
+      },
+      "rank1": {
+       "ci": [
+        0.2678114411002591,
+        0.38961054229934916
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3250996015936255
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.04705422794117647,
+        0.1991196856241104
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10682492581602374
+      },
+      "mAP": {
+       "ci": [
+        0.30544713895394104,
+        0.41537160737092516
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3565984847451897
+      },
+      "rank1": {
+       "ci": [
+        0.2965133006087628,
+        0.4169544231319782
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3539840637450199
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.033442028985507244,
+        0.18001219512195116
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.08902077151335312
+      },
+      "mAP": {
+       "ci": [
+        0.2984937941544915,
+        0.42356441250694843
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3577500397561182
+      },
+      "rank1": {
+       "ci": [
+        0.3193159257901888,
+        0.45406983182970734
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3844621513944223
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.038458188153310105,
+        0.19565383592607366
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09792284866468842
+      },
+      "mAP": {
+       "ci": [
+        0.2971619860723035,
+        0.4269960520383116
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.36028299407306597
+      },
+      "rank1": {
+       "ci": [
+        0.3374913537549407,
+        0.4777216762708376
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40677290836653385
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "self_all": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.03620893376104904,
+        0.13815849282296652
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.33189751632107184,
+        0.41796658212091253
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37363886333344304
+      },
+      "rank1": {
+       "ci": [
+        0.25834857723577237,
+        0.34668437155312776
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30139442231075697
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.07873794567813855,
+        0.20961092520840655
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.13353115727002968
+      },
+      "mAP": {
+       "ci": [
+        0.2567785735781451,
+        0.3438447818581418
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.2981381778508581
+      },
+      "rank1": {
+       "ci": [
+        0.2612051826677995,
+        0.3621698189016503
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30956175298804783
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.08388305153723778,
+        0.20258911929170548
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.13353115727002968
+      },
+      "mAP": {
+       "ci": [
+        0.2304509088150111,
+        0.31414107572317534
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.26990786853738186
+      },
+      "rank1": {
+       "ci": [
+        0.27191038304249915,
+        0.37001935189742063
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3195219123505976
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.07480705017118222,
+        0.19767291863644013
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.13056379821958458
+      },
+      "mAP": {
+       "ci": [
+        0.20922196994651887,
+        0.3029799609044152
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.2532743704195026
+      },
+      "rank1": {
+       "ci": [
+        0.27943686176162813,
+        0.38496368120267904
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3304780876494024
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.07738013022888714,
+        0.2
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.13056379821958458
+      },
+      "mAP": {
+       "ci": [
+        0.20062926591225705,
+        0.2942589640718825
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.24637976228857017
+      },
+      "rank1": {
+       "ci": [
+        0.2838135271343157,
+        0.3869488144094847
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3336653386454183
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    }
+   },
+   "tau_note": "tau from leave-one-identity-out on the enrolment memory M0 of each draw"
+  },
+  "s0": {
+   "contamination_of_additions": {
+    "inject@0.05": {
+     "ci": [
+      0.04807997612393047,
+      0.055472212276723554
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.051836393989983305
+    },
+    "inject@0.1": {
+     "ci": [
+      0.09413655911784287,
+      0.1045341166525782
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.09908180300500835
+    },
+    "inject@0.2": {
+     "ci": [
+      0.19343809938421158,
+      0.20793678519442713
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.2006677796327212
+    },
+    "inject@0.4": {
+     "ci": [
+      0.3912681321735304,
+      0.4088363899462078
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.3996661101836394
+    },
+    "oracle": {
+     "ci": [
+      0.0,
+      0.0
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.0
+    },
+    "oracle_cap4": {
+     "ci": [
+      0.0,
+      0.0
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.0
+    },
+    "self@0.01": {
+     "ci": [
+      0.23478118973056997,
+      0.38834884160756494
+     ],
+     "n_den": 5104.0,
+     "n_identities": 52,
+     "point": 0.3113244514106583
+    },
+    "self@0.05": {
+     "ci": [
+      0.28197651022032183,
+      0.4547706409643845
+     ],
+     "n_den": 6594.0,
+     "n_identities": 52,
+     "point": 0.370336669699727
+    },
+    "self@0.05_cap4": {
+     "ci": [
+      0.2477874768055952,
+      0.4013641205214094
+     ],
+     "n_den": 5065.0,
+     "n_identities": 52,
+     "point": 0.3224086870681145
+    },
+    "self@0.1": {
+     "ci": [
+      0.34571611854675494,
+      0.5166149453653349
+     ],
+     "n_den": 8006.0,
+     "n_identities": 52,
+     "point": 0.4329253060204846
+    },
+    "self_all": {
+     "ci": [
+      0.5691663147463609,
+      0.6785103700226298
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.6277128547579299
+    }
+   },
+   "hypotheses": {
+    "H1_oracle_minus_none": {
+     "ci": [
+      0.38717055600649347,
+      0.4747793511792379
+     ],
+     "diff": 0.4311646325645194,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 9.999000099990002e-05,
+     "p_holm_four": 0.00039996000399960006
+    },
+    "H2_self5_minus_none": {
+     "ci": [
+      0.09297023926849297,
+      0.18967847425638712
+     ],
+     "diff": 0.14064257135524108,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 9.999000099990002e-05,
+     "p_holm_four": 0.00039996000399960006
+    },
+    "H3_inject0.4_minus_oracle": {
+     "ci": [
+      -0.3248073761802551,
+      -0.26807543826601377
+     ],
+     "diff": -0.29706866537183274,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 9.999000099990002e-05,
+     "p_holm_four": 0.00039996000399960006
+    },
+    "H4_cap_self5_minus_self5": {
+     "ci": [
+      -0.13305328154437318,
+      -0.05166822192387807
+     ],
+     "diff": -0.09117840618406231,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 9.999000099990002e-05,
+     "p_holm_four": 0.00039996000399960006
+    },
+    "extra_oracle_cap_minus_oracle": {
+     "ci": [
+      -0.24609869877718438,
+      -0.1512743742557091
+     ],
+     "diff": -0.19626658221115229,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 9.999000099990002e-05
+    },
+    "extra_self_all_minus_none": {
+     "ci": [
+      0.001366572051314706,
+      0.0705345822399697
+     ],
+     "diff": 0.03493057580303055,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 0.058194180581941805
+    }
+   },
+   "policies": {
+    "inject@0.05": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.0678381313346393,
+        0.29774075708541725
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.1513353115727003
+      },
+      "mAP": {
+       "ci": [
+        0.31840067152297535,
+        0.4539504363483096
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3869501431940293
+      },
+      "rank1": {
+       "ci": [
+        0.3304331321324153,
+        0.5133091892806917
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.41733067729083667
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.042061771417997905,
+        0.21133727501956343
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10089020771513353
+      },
+      "mAP": {
+       "ci": [
+        0.3478776060809466,
+        0.47521579475835096
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.41053751890924667
+      },
+      "rank1": {
+       "ci": [
+        0.439714783565664,
+        0.6266451722913252
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.5370517928286852
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.04544883508451348,
+        0.24139641488779412
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.11572700296735905
+      },
+      "mAP": {
+       "ci": [
+        0.3721526710801192,
+        0.4950644832442775
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.43138841840398506
+      },
+      "rank1": {
+       "ci": [
+        0.5803435744115804,
+        0.7293006483081484
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.6575697211155378
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04477057780404906,
+        0.22394262763855666
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.11275964391691394
+      },
+      "mAP": {
+       "ci": [
+        0.41070627344843424,
+        0.5165962940614431
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4636647921249648
+      },
+      "rank1": {
+       "ci": [
+        0.7163087577221606,
+        0.8119020616104978
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.7667330677290837
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "inject@0.1": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.06309077216017278,
+        0.25793970814132106
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.13649851632047477
+      },
+      "mAP": {
+       "ci": [
+        0.2893402312044887,
+        0.4228322897001919
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3565313472434373
+      },
+      "rank1": {
+       "ci": [
+        0.32630292134301614,
+        0.49964309309309307
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40936254980079684
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.04,
+        0.17826028418741433
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.08902077151335312
+      },
+      "mAP": {
+       "ci": [
+        0.3026018642528603,
+        0.4319022236358634
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3666667905662285
+      },
+      "rank1": {
+       "ci": [
+        0.42300879267678426,
+        0.594240268539049
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.5115537848605578
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.04264699975901679,
+        0.21074250821018053
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3307159043420184,
+        0.45103633556751466
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3890540808450141
+      },
+      "rank1": {
+       "ci": [
+        0.5496835884112099,
+        0.687004860601254
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.6205179282868526
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.0358182302771855,
+        0.18987518563043632
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09198813056379822
+      },
+      "mAP": {
+       "ci": [
+        0.3761237223673124,
+        0.470788155998578
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.42418031292073743
+      },
+      "rank1": {
+       "ci": [
+        0.6674555848019149,
+        0.7585292536855037
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.7159362549800797
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "inject@0.2": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.059125087637298436,
+        0.27608087005019516
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.1394658753709199
+      },
+      "mAP": {
+       "ci": [
+        0.25135777750871713,
+        0.3700309293953011
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30894867137605825
+      },
+      "rank1": {
+       "ci": [
+        0.3198306060122616,
+        0.46485953442169536
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3902390438247012
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.03929916944943917,
+        0.20677015815400568
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09792284866468842
+      },
+      "mAP": {
+       "ci": [
+        0.24463412483904867,
+        0.3641511679482674
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30386361432827774
+      },
+      "rank1": {
+       "ci": [
+        0.40473822944297083,
+        0.5548210465629752
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.48187250996015935
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.04544883508451348,
+        0.24139641488779412
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.11572700296735905
+      },
+      "mAP": {
+       "ci": [
+        0.2711819616124291,
+        0.3779097906372013
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3220120753724666
+      },
+      "rank1": {
+       "ci": [
+        0.5084854679983842,
+        0.6312928855765582
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.5705179282868525
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04477057780404906,
+        0.22394262763855666
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.11275964391691394
+      },
+      "mAP": {
+       "ci": [
+        0.3091944306127441,
+        0.3924658096184505
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3502942599151396
+      },
+      "rank1": {
+       "ci": [
+        0.5983042714466964,
+        0.6822198957492789
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.6408366533864542
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "inject@0.4": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.06895938878901782,
+        0.2026035189372526
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.13056379821958458
+      },
+      "mAP": {
+       "ci": [
+        0.18767565227594163,
+        0.2821681295723491
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.23357888614030706
+      },
+      "rank1": {
+       "ci": [
+        0.2989907700169269,
+        0.4086869404044783
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3551792828685259
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.04024457248786454,
+        0.16583771975605022
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10089020771513353
+      },
+      "mAP": {
+       "ci": [
+        0.16666605679736865,
+        0.25451866442817755
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.21114572812258023
+      },
+      "rank1": {
+       "ci": [
+        0.34790633622388645,
+        0.4525850897765296
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.400796812749004
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.0417619983311351,
+        0.1787469070342877
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10682492581602374
+      },
+      "mAP": {
+       "ci": [
+        0.18555287130265768,
+        0.2599001619068448
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.22195894442925532
+      },
+      "rank1": {
+       "ci": [
+        0.4145225347714646,
+        0.5106913829087686
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.46115537848605576
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.038070376296623264,
+        0.17424416180150126
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.20727142376042104,
+        0.26334080415963224
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.2354528040659689
+      },
+      "rank1": {
+       "ci": [
+        0.46382052970879983,
+        0.5417705672626649
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.502589641434263
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "none": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "oracle": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.06804106910039114,
+        0.3040124567474048
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.1543026706231454
+      },
+      "mAP": {
+       "ci": [
+        0.35018249084268926,
+        0.48897862801139425
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.42012211881267475
+      },
+      "rank1": {
+       "ci": [
+        0.3395618593142453,
+        0.5353799640895647
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4316733067729084
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.042061771417997905,
+        0.21133727501956343
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10089020771513353
+      },
+      "mAP": {
+       "ci": [
+        0.39489602694257464,
+        0.5291994298482681
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.45983838216536704
+      },
+      "rank1": {
+       "ci": [
+        0.455708747164659,
+        0.6564312817700534
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.5593625498007968
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.04544883508451348,
+        0.24139641488779412
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.11572700296735905
+      },
+      "mAP": {
+       "ci": [
+        0.42310005780081866,
+        0.5530840095818927
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4852744458431252
+      },
+      "rank1": {
+       "ci": [
+        0.6078742219917012,
+        0.7657273981324279
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.6894422310756972
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04477057780404906,
+        0.22394262763855666
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.11275964391691394
+      },
+      "mAP": {
+       "ci": [
+        0.45336328167696893,
+        0.5724608039261735
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.5128409165195998
+      },
+      "rank1": {
+       "ci": [
+        0.7504531516809577,
+        0.8508637987547909
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.8037848605577689
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "oracle_cap4": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.06321178091341739,
+        0.2548363515936737
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.13353115727002968
+      },
+      "mAP": {
+       "ci": [
+        0.3814366050936525,
+        0.48250811359426904
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.431085256410159
+      },
+      "rank1": {
+       "ci": [
+        0.3312173342750479,
+        0.46022772523643596
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.39223107569721116
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.047515002597260575,
+        0.23763554926921257
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.11869436201780416
+      },
+      "mAP": {
+       "ci": [
+        0.4071562589344332,
+        0.5132703438330183
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4578627468712105
+      },
+      "rank1": {
+       "ci": [
+        0.39049190293161407,
+        0.5272757643247621
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4551792828685259
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.057725441403009836,
+        0.25590198467082886
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.12759643916913946
+      },
+      "mAP": {
+       "ci": [
+        0.4123886392483986,
+        0.5292858627355184
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4691593471998007
+      },
+      "rank1": {
+       "ci": [
+        0.4412463091363615,
+        0.5876193119266055
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.5123505976095617
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.05703706152676299,
+        0.2561158869785418
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.12759643916913946
+      },
+      "mAP": {
+       "ci": [
+        0.4278015969932955,
+        0.5491664738950469
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.48936715473573267
+      },
+      "rank1": {
+       "ci": [
+        0.4888006707205886,
+        0.6432926978681696
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.5655378486055777
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "self@0.01": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.07406168710516536,
+        0.36623248488359444
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.21068249258160238
+      },
+      "mAP": {
+       "ci": [
+        0.3547934158690727,
+        0.47121108867279626
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4099337465359296
+      },
+      "rank1": {
+       "ci": [
+        0.31998267326732677,
+        0.43030393517058707
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3709163346613546
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.06541339921939342,
+        0.33537215463197323
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.19287833827893175
+      },
+      "mAP": {
+       "ci": [
+        0.3643183046420081,
+        0.49446072419514236
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4249999849054123
+      },
+      "rank1": {
+       "ci": [
+        0.3499946120689655,
+        0.4823602781676662
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4109561752988048
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.06689553990610328,
+        0.33334553440702774
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.19287833827893175
+      },
+      "mAP": {
+       "ci": [
+        0.37004911043162986,
+        0.5070772997988098
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4353597874171367
+      },
+      "rank1": {
+       "ci": [
+        0.3827567703908241,
+        0.5250100806451613
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.449800796812749
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.07421513310185185,
+        0.34277799486435184
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.20178041543026706
+      },
+      "mAP": {
+       "ci": [
+        0.380510836657298,
+        0.5247427289044986
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4518393483804906
+      },
+      "rank1": {
+       "ci": [
+        0.4133484311740891,
+        0.5614187878787879
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4860557768924303
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "self@0.05": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.08211791831357049,
+        0.47818950110753117
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.26706231454005935
+      },
+      "mAP": {
+       "ci": [
+        0.3466210365322205,
+        0.4767171931723594
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.407081492116965
+      },
+      "rank1": {
+       "ci": [
+        0.3126721179246234,
+        0.4452740275322051
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3749003984063745
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.06952565552145587,
+        0.44155686175285613
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.2433234421364985
+      },
+      "mAP": {
+       "ci": [
+        0.3513886464546376,
+        0.48995725893932457
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4166506768312554
+      },
+      "rank1": {
+       "ci": [
+        0.3426623897990443,
+        0.4893629836457918
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4105577689243028
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.06896314239574428,
+        0.4381216295639439
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.2403560830860534
+      },
+      "mAP": {
+       "ci": [
+        0.3599753001561057,
+        0.5016097674594975
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.42753758921220847
+      },
+      "rank1": {
+       "ci": [
+        0.3780240750262853,
+        0.5356285124540344
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4531872509960159
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.07995924764890283,
+        0.44554787381878813
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.2551928783382789
+      },
+      "mAP": {
+       "ci": [
+        0.37429591801882556,
+        0.5143120582592638
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4417702426110713
+      },
+      "rank1": {
+       "ci": [
+        0.4133628170894526,
+        0.5727338331771321
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.49123505976095616
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "self@0.05_cap4": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.07560630464795214,
+        0.44329050217535576
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.2433234421364985
+      },
+      "mAP": {
+       "ci": [
+        0.3611566282412515,
+        0.46999458764657404
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.41469546231228666
+      },
+      "rank1": {
+       "ci": [
+        0.3074996304538848,
+        0.418981513639461
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3609561752988048
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.05788542151839776,
+        0.39300026605474075
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.21364985163204747
+      },
+      "mAP": {
+       "ci": [
+        0.37696199361193433,
+        0.4953798022892022
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4334948662072817
+      },
+      "rank1": {
+       "ci": [
+        0.3290197494246167,
+        0.44900852117382584
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3840637450199203
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.08125641171777043,
+        0.4115987334368632
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.2344213649851632
+      },
+      "mAP": {
+       "ci": [
+        0.37853218465974964,
+        0.4941230780703661
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4332963151089643
+      },
+      "rank1": {
+       "ci": [
+        0.3340307120243451,
+        0.45861995527355937
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.39203187250996013
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.07407407407407407,
+        0.2462616382072448
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.14540059347181009
+      },
+      "mAP": {
+       "ci": [
+        0.3751952964975716,
+        0.49682460783100124
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.43492529614466163
+      },
+      "rank1": {
+       "ci": [
+        0.34082987164620104,
+        0.4704986307141352
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4041832669322709
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "self@0.1": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.08389157530534828,
+        0.4773000437062936
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.26706231454005935
+      },
+      "mAP": {
+       "ci": [
+        0.33630176146754187,
+        0.46654801940282015
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.39762894540315746
+      },
+      "rank1": {
+       "ci": [
+        0.3121997859799908,
+        0.44403658111312594
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.37390438247011953
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.06975236244219557,
+        0.43112505690008346
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.2403560830860534
+      },
+      "mAP": {
+       "ci": [
+        0.33829512079235463,
+        0.4772406898571011
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4032709802575526
+      },
+      "rank1": {
+       "ci": [
+        0.33468526481485034,
+        0.48364172783737996
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4043824701195219
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.06421467889908257,
+        0.42450686641697877
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.2344213649851632
+      },
+      "mAP": {
+       "ci": [
+        0.3416673398825053,
+        0.47878315555717027
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40668184089354853
+      },
+      "rank1": {
+       "ci": [
+        0.37321070639300497,
+        0.533033269942112
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.44900398406374503
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.06049583223864912,
+        0.4286121286121284
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.2403560830860534
+      },
+      "mAP": {
+       "ci": [
+        0.3394992023101328,
+        0.474588500485202
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4045015921202752
+      },
+      "rank1": {
+       "ci": [
+        0.3973485592488668,
+        0.5585871838188293
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.47549800796812747
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "self_all": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.052312854399122005,
+        0.17834631686122224
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.3750365238377669,
+        0.462280565362565
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4181072729564289
+      },
+      "rank1": {
+       "ci": [
+        0.3027642458902144,
+        0.39001731601731593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3456175298804781
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.07868376881329381,
+        0.4567154287659906
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.2522255192878338
+      },
+      "mAP": {
+       "ci": [
+        0.29495921116034995,
+        0.3975942704585138
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3431970338370447
+      },
+      "rank1": {
+       "ci": [
+        0.3028321449792038,
+        0.4136817748728014
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.35637450199203186
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.0780647829200914,
+        0.40945410110855995
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.2314540059347181
+      },
+      "mAP": {
+       "ci": [
+        0.25508093881829147,
+        0.35429996887404275
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.30162042442017745
+      },
+      "rank1": {
+       "ci": [
+        0.29867121982906486,
+        0.4148157315731573
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.35318725099601594
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.09194774883300708,
+        0.4156037271278906
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.2433234421364985
+      },
+      "mAP": {
+       "ci": [
+        0.2432275761162046,
+        0.3372108550069788
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.28773526745829336
+      },
+      "rank1": {
+       "ci": [
+        0.3202523118841856,
+        0.4339338054187192
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3745019920318725
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.07538486893128586,
+        0.40734013885082654
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.2314540059347181
+      },
+      "mAP": {
+       "ci": [
+        0.2346680267548153,
+        0.32848398719586913
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.2803824130469453
+      },
+      "rank1": {
+       "ci": [
+        0.33061110881599604,
+        0.44659095951192457
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3852589641434263
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    }
+   },
+   "tau_note": "tau from leave-one-identity-out on the enrolment memory M0 of each draw"
+  },
+  "s1": {
+   "contamination_of_additions": {
+    "inject@0.05": {
+     "ci": [
+      0.04807997612393047,
+      0.055472212276723554
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.051836393989983305
+    },
+    "inject@0.1": {
+     "ci": [
+      0.09413655911784287,
+      0.1045341166525782
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.09908180300500835
+    },
+    "inject@0.2": {
+     "ci": [
+      0.19343809938421158,
+      0.20793678519442713
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.2006677796327212
+    },
+    "inject@0.4": {
+     "ci": [
+      0.3912681321735304,
+      0.4088363899462078
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.3996661101836394
+    },
+    "oracle": {
+     "ci": [
+      0.0,
+      0.0
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.0
+    },
+    "oracle_cap4": {
+     "ci": [
+      0.0,
+      0.0
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.0
+    },
+    "self@0.01": {
+     "ci": [
+      0.25286077815589375,
+      0.401863375582288
+     ],
+     "n_den": 4712.0,
+     "n_identities": 52,
+     "point": 0.325339558573854
+    },
+    "self@0.05": {
+     "ci": [
+      0.29624438933202046,
+      0.4451915794718485
+     ],
+     "n_den": 6294.0,
+     "n_identities": 52,
+     "point": 0.3700349539243724
+    },
+    "self@0.05_cap4": {
+     "ci": [
+      0.24236241317299975,
+      0.41234937143835443
+     ],
+     "n_den": 4833.0,
+     "n_identities": 52,
+     "point": 0.3217463273329195
+    },
+    "self@0.1": {
+     "ci": [
+      0.360032996403341,
+      0.5108108916437075
+     ],
+     "n_den": 7619.0,
+     "n_identities": 52,
+     "point": 0.43759023493896837
+    },
+    "self_all": {
+     "ci": [
+      0.5657650307052298,
+      0.6722147262086527
+     ],
+     "n_den": 11980.0,
+     "n_identities": 52,
+     "point": 0.6202838063439066
+    }
+   },
+   "hypotheses": {
+    "H1_oracle_minus_none": {
+     "ci": [
+      0.38178082971970845,
+      0.48248112001434945
+     ],
+     "diff": 0.4332714581484378,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 9.999000099990002e-05,
+     "p_holm_four": 0.00039996000399960006
+    },
+    "H2_self5_minus_none": {
+     "ci": [
+      0.08628656929420504,
+      0.1739222323129987
+     ],
+     "diff": 0.1285029137843052,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 9.999000099990002e-05,
+     "p_holm_four": 0.00039996000399960006
+    },
+    "H3_inject0.4_minus_oracle": {
+     "ci": [
+      -0.325799954158304,
+      -0.2633861419775235
+     ],
+     "diff": -0.29548769622157633,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 9.999000099990002e-05,
+     "p_holm_four": 0.00039996000399960006
+    },
+    "H4_cap_self5_minus_self5": {
+     "ci": [
+      -0.12116780727442494,
+      -0.0497094568170643
+     ],
+     "diff": -0.08441865795089779,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 9.999000099990002e-05,
+     "p_holm_four": 0.00039996000399960006
+    },
+    "extra_oracle_cap_minus_oracle": {
+     "ci": [
+      -0.23250044547976534,
+      -0.13454267216569255
+     ],
+     "diff": -0.18174538837858972,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 9.999000099990002e-05
+    },
+    "extra_self_all_minus_none": {
+     "ci": [
+      0.02285622930755143,
+      0.0944519055291114
+     ],
+     "diff": 0.05639322106375276,
+     "n_identities": 52,
+     "n_obs": 52,
+     "p": 0.0032996700329967
+    }
+   },
+   "policies": {
+    "inject@0.05": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.043974807746483095,
+        0.23762579126765132
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.11275964391691394
+      },
+      "mAP": {
+       "ci": [
+        0.3096979266452089,
+        0.44643737257894234
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3762269743041954
+      },
+      "rank1": {
+       "ci": [
+        0.3195124796131158,
+        0.4982973981666105
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40398406374501994
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.02549529961566915,
+        0.14724491815328938
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0712166172106825
+      },
+      "mAP": {
+       "ci": [
+        0.33059101806373736,
+        0.4580694128204558
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.39271964237008294
+      },
+      "rank1": {
+       "ci": [
+        0.42504566269280164,
+        0.6068184422110552
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.5157370517928287
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.053046889253785805,
+        0.2237573025785656
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.11572700296735905
+      },
+      "mAP": {
+       "ci": [
+        0.3594121375080978,
+        0.48288355808472994
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4180282564148143
+      },
+      "rank1": {
+       "ci": [
+        0.5659555063464524,
+        0.7208733343428225
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.6458167330677291
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.054452755058114505,
+        0.22047393790605072
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.11869436201780416
+      },
+      "mAP": {
+       "ci": [
+        0.39518283724613196,
+        0.5020307418926547
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4475608259341258
+      },
+      "rank1": {
+       "ci": [
+        0.6996437555912266,
+        0.7972335642020524
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.752589641434263
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "inject@0.1": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.037994767441860464,
+        0.20763644067796605
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09792284866468842
+      },
+      "mAP": {
+       "ci": [
+        0.2799737761128954,
+        0.41609774069689975
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3466882100202659
+      },
+      "rank1": {
+       "ci": [
+        0.3160826718540568,
+        0.48828392412261695
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.39820717131474104
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.0206416107065166,
+        0.12414508183696166
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.05934718100890208
+      },
+      "mAP": {
+       "ci": [
+        0.2872494090017293,
+        0.41863698853862463
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.35017921572016797
+      },
+      "rank1": {
+       "ci": [
+        0.41389576170717246,
+        0.5853287962465178
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.5
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.037687407626367124,
+        0.19328028381163787
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09495548961424333
+      },
+      "mAP": {
+       "ci": [
+        0.32028516706872273,
+        0.4418903645136874
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3786986228645796
+      },
+      "rank1": {
+       "ci": [
+        0.5474452614379085,
+        0.6938407194048807
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.6217131474103585
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.040494626841552424,
+        0.19446138211382105
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09792284866468842
+      },
+      "mAP": {
+       "ci": [
+        0.3639139766250058,
+        0.46005773095735614
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4119197685455477
+      },
+      "rank1": {
+       "ci": [
+        0.671024965758943,
+        0.7614581617525943
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.7195219123505976
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "inject@0.2": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.037994767441860464,
+        0.22765692038773203
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.2381995671779697,
+        0.36093610434863665
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.2982801213111881
+      },
+      "rank1": {
+       "ci": [
+        0.30941682829009726,
+        0.45744172758603396
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.38067729083665336
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.02538534615841349,
+        0.13991458873056983
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.06824925816023739
+      },
+      "mAP": {
+       "ci": [
+        0.23169310578453117,
+        0.353485670036257
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.29133597439757813
+      },
+      "rank1": {
+       "ci": [
+        0.3933207171314741,
+        0.5434646962765199
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.46752988047808763
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.043725440486753704,
+        0.20801235521235514
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.26274046706245036,
+        0.3701192335769582
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.31371910081939686
+      },
+      "rank1": {
+       "ci": [
+        0.4960857624309907,
+        0.6213223688219879
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.5603585657370518
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.056209561466570815,
+        0.21961007130124777
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.11869436201780416
+      },
+      "mAP": {
+       "ci": [
+        0.2988414705926209,
+        0.3836137630646676
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.34005789000687925
+      },
+      "rank1": {
+       "ci": [
+        0.5929151785714285,
+        0.6751719057944885
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.6358565737051792
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "inject@0.4": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.036917431192660555,
+        0.16500198412698414
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.09198813056379822
+      },
+      "mAP": {
+       "ci": [
+        0.18220368410169532,
+        0.27899348357248926
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.2278503055937273
+      },
+      "rank1": {
+       "ci": [
+        0.28967353573873084,
+        0.40387559356255914
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.34701195219123504
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.023435220087548638,
+        0.11408045977011481
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.06528189910979229
+      },
+      "mAP": {
+       "ci": [
+        0.1599665159793059,
+        0.2493325977667361
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.20363888686707599
+      },
+      "rank1": {
+       "ci": [
+        0.33346286894923255,
+        0.43920140495867765
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.38745019920318724
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.041504755964447214,
+        0.1552465241777322
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.08902077151335312
+      },
+      "mAP": {
+       "ci": [
+        0.17986887341453028,
+        0.25586148511853163
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.21701558627448658
+      },
+      "rank1": {
+       "ci": [
+        0.40249798387096775,
+        0.5020685587055593
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.45159362549800797
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.050906204906204906,
+        0.17461071881223966
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10385756676557864
+      },
+      "mAP": {
+       "ci": [
+        0.20157114054315284,
+        0.2583683673935981
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.22992235987100687
+      },
+      "rank1": {
+       "ci": [
+        0.45819180763411654,
+        0.5347649812413273
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.498207171314741
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "none": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "oracle": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.044444444444444446,
+        0.24504111376449442
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.11572700296735905
+      },
+      "mAP": {
+       "ci": [
+        0.33694512403509974,
+        0.48192379677990543
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4084500487925729
+      },
+      "rank1": {
+       "ci": [
+        0.32875918594529446,
+        0.5206502320117817
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.41932270916334663
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.02631578947368421,
+        0.15212230671736357
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.07418397626112759
+      },
+      "mAP": {
+       "ci": [
+        0.3747590064855692,
+        0.5086857490984074
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4390388634918871
+      },
+      "rank1": {
+       "ci": [
+        0.44355299963661254,
+        0.6363021548014978
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.5402390438247012
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.04910424814738575,
+        0.2292905536198218
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.11572700296735905
+      },
+      "mAP": {
+       "ci": [
+        0.40772562608657253,
+        0.5367357876442846
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4686770249962941
+      },
+      "rank1": {
+       "ci": [
+        0.5937497035104364,
+        0.7577325452938577
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.6782868525896414
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.05369080119819512,
+        0.23171311323379393
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.12166172106824925
+      },
+      "mAP": {
+       "ci": [
+        0.435765421805623,
+        0.5521076593508019
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.49350084283294987
+      },
+      "rank1": {
+       "ci": [
+        0.7399049846348518,
+        0.8392901348527696
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.7938247011952191
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "oracle_cap4": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.045766645326504485,
+        0.2554829400780852
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.12166172106824925
+      },
+      "mAP": {
+       "ci": [
+        0.367278365140878,
+        0.4733085865657636
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4187317199725103
+      },
+      "rank1": {
+       "ci": [
+        0.3196407156035846,
+        0.44973878749351753
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.38107569721115536
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.04166050295857988,
+        0.23575166112956789
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.10979228486646884
+      },
+      "mAP": {
+       "ci": [
+        0.38473209070140707,
+        0.4996380743419201
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.43950569591289745
+      },
+      "rank1": {
+       "ci": [
+        0.37162155727155727,
+        0.5140788728323699
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4384462151394422
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.05290610892675113,
+        0.2653735685517548
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.12759643916913946
+      },
+      "mAP": {
+       "ci": [
+        0.3998927785224835,
+        0.5200155569552043
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.45680934286492647
+      },
+      "rank1": {
+       "ci": [
+        0.4295840536793276,
+        0.5778525035728869
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.500996015936255
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04007815631262525,
+        0.24593280558499017
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.11275964391691394
+      },
+      "mAP": {
+       "ci": [
+        0.41670846859576294,
+        0.5388849768586714
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4773461570115022
+      },
+      "rank1": {
+       "ci": [
+        0.4865284299858557,
+        0.6366426082244406
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.5597609561752988
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "self@0.01": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.05985769266763371,
+        0.35596867944468463
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.19881305637982197
+      },
+      "mAP": {
+       "ci": [
+        0.3438842215768958,
+        0.46492474081989293
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40180792664137327
+      },
+      "rank1": {
+       "ci": [
+        0.29799371482176357,
+        0.41744278126508927
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3555776892430279
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.03996649484536083,
+        0.32684190809190805
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.16913946587537093
+      },
+      "mAP": {
+       "ci": [
+        0.3509709522157507,
+        0.479158851274348
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.41162813658197683
+      },
+      "rank1": {
+       "ci": [
+        0.3248007064975523,
+        0.45645208728652753
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.38725099601593627
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.0395342523960153,
+        0.3290628455716562
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.16913946587537093
+      },
+      "mAP": {
+       "ci": [
+        0.3507849829042004,
+        0.48618302332149954
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.415270173639016
+      },
+      "rank1": {
+       "ci": [
+        0.35220353982300884,
+        0.48537264758206644
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4159362549800797
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04054054054054054,
+        0.32766560374679243
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.16913946587537093
+      },
+      "mAP": {
+       "ci": [
+        0.3612301031201763,
+        0.4975671285489666
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.427525098915908
+      },
+      "rank1": {
+       "ci": [
+        0.38351652298850575,
+        0.5183870083816893
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.44940239043824703
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "self@0.05": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.05493012422360249,
+        0.39131611142480704
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.20771513353115728
+      },
+      "mAP": {
+       "ci": [
+        0.3354221356126209,
+        0.458251245649472
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.393913392125275
+      },
+      "rank1": {
+       "ci": [
+        0.2955433702375866,
+        0.4156572355134379
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3533864541832669
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.037613715411091944,
+        0.35932210463058784
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.18100890207715134
+      },
+      "mAP": {
+       "ci": [
+        0.3412792800343199,
+        0.47457645081387134
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.403904360980043
+      },
+      "rank1": {
+       "ci": [
+        0.33129460998130633,
+        0.4674500329314013
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3952191235059761
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.037204995693367784,
+        0.35582561728395035
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.17804154302670624
+      },
+      "mAP": {
+       "ci": [
+        0.34113135212820184,
+        0.47776802454674194
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40463782263260306
+      },
+      "rank1": {
+       "ci": [
+        0.3691765086206897,
+        0.5025620141237909
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.43247011952191233
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04416355899789635,
+        0.36625955880446887
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.18991097922848665
+      },
+      "mAP": {
+       "ci": [
+        0.3466232481620227,
+        0.4828873055399095
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4110673686130972
+      },
+      "rank1": {
+       "ci": [
+        0.3993752252252252,
+        0.5368428963189537
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.46653386454183265
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "self@0.05_cap4": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.04497655254052085,
+        0.32637344197815915
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.17804154302670624
+      },
+      "mAP": {
+       "ci": [
+        0.35295348782883157,
+        0.46635585997460716
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.4084196611402007
+      },
+      "rank1": {
+       "ci": [
+        0.2929937214386627,
+        0.4135715923984273
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.351195219123506
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.033109850720171356,
+        0.30159729696166876
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.1543026706231454
+      },
+      "mAP": {
+       "ci": [
+        0.3548386311460325,
+        0.4713513246750495
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.410940140173725
+      },
+      "rank1": {
+       "ci": [
+        0.3032832861776495,
+        0.4296733030727169
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.36394422310756974
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.02303147552386749,
+        0.3209411431008094
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.1543026706231454
+      },
+      "mAP": {
+       "ci": [
+        0.3455626139109933,
+        0.468654414096983
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.405914868821051
+      },
+      "rank1": {
+       "ci": [
+        0.3047883307266453,
+        0.4360364509246088
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.36852589641434264
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.03233426048058726,
+        0.12733621795333683
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.07418397626112759
+      },
+      "mAP": {
+       "ci": [
+        0.3405982505164646,
+        0.46681540229550605
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40256494177850605
+      },
+      "rank1": {
+       "ci": [
+        0.3030909457740968,
+        0.43816354332801694
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3691235059760956
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "self@0.1": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.0641025641025641,
+        0.39803236785144674
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.2166172106824926
+      },
+      "mAP": {
+       "ci": [
+        0.3278398196907748,
+        0.45271849295913574
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.38747265472142717
+      },
+      "rank1": {
+       "ci": [
+        0.29579121181182755,
+        0.4195699668756391
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3551792828685259
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.03864507561881836,
+        0.35934702024522347
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.18397626112759644
+      },
+      "mAP": {
+       "ci": [
+        0.3227078536443708,
+        0.45836712990018386
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.38609617029124466
+      },
+      "rank1": {
+       "ci": [
+        0.3247653433828004,
+        0.4641427301813011
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3890438247011952
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.047619047619047616,
+        0.36480300453514736
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.18991097922848665
+      },
+      "mAP": {
+       "ci": [
+        0.32151264135830065,
+        0.4580432415357993
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3847942596781861
+      },
+      "rank1": {
+       "ci": [
+        0.36326759212581,
+        0.5029954533792518
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.42868525896414345
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04889839582996606,
+        0.36437674716570884
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.18694362017804153
+      },
+      "mAP": {
+       "ci": [
+        0.3196592758999832,
+        0.45434893725753617
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3838348536772284
+      },
+      "rank1": {
+       "ci": [
+        0.3956028516057586,
+        0.5346694257402451
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.46235059760956176
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    },
+    "self_all": {
+     "0.0": {
+      "hard_rank1": {
+       "ci": [
+        0.04062460342639594,
+        0.14026053215077597
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.0830860534124629
+      },
+      "mAP": {
+       "ci": [
+        0.35844219704937036,
+        0.4522450632294172
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.40439205381409016
+      },
+      "rank1": {
+       "ci": [
+        0.28338401975086974,
+        0.37695879069183963
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.32888446215139444
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.25": {
+      "hard_rank1": {
+       "ci": [
+        0.1106171401956218,
+        0.40385362694300514
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.2433234421364985
+      },
+      "mAP": {
+       "ci": [
+        0.30096835080422485,
+        0.39374585236650994
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3458476895068616
+      },
+      "rank1": {
+       "ci": [
+        0.30119300584640357,
+        0.4006574413489735
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.350398406374502
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.5": {
+      "hard_rank1": {
+       "ci": [
+        0.07339152957924708,
+        0.35970153061224486
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.20178041543026706
+      },
+      "mAP": {
+       "ci": [
+        0.261507138060083,
+        0.3552155497731374
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3060359575099741
+      },
+      "rank1": {
+       "ci": [
+        0.30595705670481743,
+        0.41135395978400446
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3587649402390438
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "0.75": {
+      "hard_rank1": {
+       "ci": [
+        0.07110698198198198,
+        0.35617548594267745
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.19584569732937684
+      },
+      "mAP": {
+       "ci": [
+        0.24824946316319577,
+        0.33847619781138627
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.2915537435244206
+      },
+      "rank1": {
+       "ci": [
+        0.3338582770906849,
+        0.4334664301221607
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.38366533864541835
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     },
+     "1.0": {
+      "hard_rank1": {
+       "ci": [
+        0.07751742228486415,
+        0.36452925468432984
+       ],
+       "n_den": 337.0,
+       "n_identities": 52,
+       "point": 0.20474777448071216
+      },
+      "mAP": {
+       "ci": [
+        0.2373121598255908,
+        0.32993981716217835
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.28174972227148176
+      },
+      "rank1": {
+       "ci": [
+        0.345103881261813,
+        0.44826545871559625
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 0.3966135458167331
+      },
+      "valid_probe_fraction": {
+       "ci": [
+        1.0,
+        1.0
+       ],
+       "n_den": 5020.0,
+       "n_identities": 52,
+       "point": 1.0
+      }
+     }
+    }
+   },
+   "tau_note": "tau from leave-one-identity-out on the enrolment memory M0 of each draw"
+  }
+ },
+ "fracs": [
+  0.0,
+  0.25,
+  0.5,
+  0.75,
+  1.0
+ ],
+ "ndraw": 10,
+ "runtime_s": 62.49987602233887
+}

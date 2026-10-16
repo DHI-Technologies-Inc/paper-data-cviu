@@ -1,0 +1,19 @@
+{
+ "gallery_embeddings": {
+  "max_abs_diff": 0.0,
+  "mean_abs_diff": 0.0,
+  "shape": [
+   1438,
+   512
+  ]
+ },
+ "ids_equal": true,
+ "query_embeddings": {
+  "max_abs_diff": 0.0,
+  "mean_abs_diff": 0.0,
+  "shape": [
+   316,
+   512
+  ]
+ }
+}

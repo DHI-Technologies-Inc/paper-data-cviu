@@ -1,0 +1,631 @@
+{
+  "schema": "dhi.amodal.accept-leftovers.v1",
+  "seed": 0,
+  "n_train": 60,
+  "n_eval": 40,
+  "n_boot": 2000,
+  "committed_naive_not_overwritten": {
+    "bench_table_crowding_0_6": 2.85,
+    "alignment_study_crowding_0_6": 2.63,
+    "note": "different experiments; both stay"
+  },
+  "logistic_remeasure_with_ci": [
+    {
+      "crowding": 0.0,
+      "detector_family": "logistic",
+      "z_scale": 6.726034275705003,
+      "curve": {
+        "k": 6.8952,
+        "v0": 0.3602,
+        "support": [
+          0.05,
+          1.0
+        ],
+        "n_samples": 720,
+        "z_scale": 6.726,
+        "z_scale_two_sided": null
+      },
+      "naive_mae": 2.8,
+      "corrected_mae": 2.4010522530923573,
+      "coverage": 0.9,
+      "n_train": 60,
+      "n_eval": 40,
+      "naive_ci95": [
+        2.3,
+        3.275
+      ],
+      "corrected_ci95": [
+        1.955190994187034,
+        2.8417909732410975
+      ],
+      "coverage_ci95": [
+        0.8,
+        0.975
+      ]
+    },
+    {
+      "crowding": 0.3,
+      "detector_family": "logistic",
+      "z_scale": 8.202195970960615,
+      "curve": {
+        "k": 7.5703,
+        "v0": 0.3347,
+        "support": [
+          0.05,
+          1.0
+        ],
+        "n_samples": 720,
+        "z_scale": 8.2022,
+        "z_scale_two_sided": null
+      },
+      "naive_mae": 2.6,
+      "corrected_mae": 1.9735717951297862,
+      "coverage": 0.9,
+      "n_train": 60,
+      "n_eval": 40,
+      "naive_ci95": [
+        2.075,
+        3.075624999999997
+      ],
+      "corrected_ci95": [
+        1.5221754428865502,
+        2.4525529853227956
+      ],
+      "coverage_ci95": [
+        0.8,
+        0.975
+      ]
+    },
+    {
+      "crowding": 0.6,
+      "detector_family": "logistic",
+      "z_scale": 14.463400593394544,
+      "curve": {
+        "k": 10.0368,
+        "v0": 0.3727,
+        "support": [
+          0.05,
+          1.0
+        ],
+        "n_samples": 720,
+        "z_scale": 14.4634,
+        "z_scale_two_sided": null
+      },
+      "naive_mae": 2.85,
+      "corrected_mae": 2.3408276362141907,
+      "coverage": 0.975,
+      "n_train": 60,
+      "n_eval": 40,
+      "naive_ci95": [
+        2.35,
+        3.35
+      ],
+      "corrected_ci95": [
+        1.7705241494999353,
+        2.9355058872259163
+      ],
+      "coverage_ci95": [
+        0.925,
+        1.0
+      ]
+    },
+    {
+      "crowding": 0.8,
+      "detector_family": "logistic",
+      "z_scale": 7.7540815598383706,
+      "curve": {
+        "k": 8.5981,
+        "v0": 0.3961,
+        "support": [
+          0.05,
+          1.0
+        ],
+        "n_samples": 720,
+        "z_scale": 7.7541,
+        "z_scale_two_sided": null
+      },
+      "naive_mae": 3.725,
+      "corrected_mae": 2.4631225592340398,
+      "coverage": 0.975,
+      "n_train": 60,
+      "n_eval": 40,
+      "naive_ci95": [
+        3.25,
+        4.225
+      ],
+      "corrected_ci95": [
+        1.9516017444850886,
+        3.0084347613098363
+      ],
+      "coverage_ci95": [
+        0.925,
+        1.0
+      ]
+    }
+  ],
+  "alignment_remeasure": {
+    "crowding": 0.6,
+    "n_train": 60,
+    "n_eval": 40,
+    "seed": 0,
+    "naive_mae": 2.85,
+    "naive_ci95": [
+      2.35,
+      3.375
+    ],
+    "truth_fitted_mae": 2.436288397002061,
+    "truth_fitted_ci95": [
+      1.8780683252453008,
+      3.0461505370160142
+    ],
+    "aligned_mae": 2.3408276362141907,
+    "aligned_ci95": [
+      1.780263346100116,
+      2.9447443447791843
+    ],
+    "note": "Same generator as bench.py seed 0 (train seed+1, eval seed+2). Committed paper 2.63/3.13/2.34 is a separate calibration-study dump. Do not overwrite that row with this remasure."
+  },
+  "non_logistic_generators": {
+    "probit": [
+      {
+        "crowding": 0.0,
+        "detector_family": "probit",
+        "z_scale": 7.651636677229757,
+        "curve": {
+          "k": 8.2259,
+          "v0": 0.3737,
+          "support": [
+            0.05,
+            1.0
+          ],
+          "n_samples": 720,
+          "z_scale": 7.6516,
+          "z_scale_two_sided": null
+        },
+        "naive_mae": 2.6,
+        "corrected_mae": 2.2279430775180074,
+        "coverage": 0.9,
+        "n_train": 60,
+        "n_eval": 40,
+        "naive_ci95": [
+          2.15,
+          3.05
+        ],
+        "corrected_ci95": [
+          1.8322303773030435,
+          2.6386222350290356
+        ],
+        "coverage_ci95": [
+          0.8,
+          0.975
+        ]
+      },
+      {
+        "crowding": 0.3,
+        "detector_family": "probit",
+        "z_scale": 9.285895984056014,
+        "curve": {
+          "k": 9.1409,
+          "v0": 0.3354,
+          "support": [
+            0.05,
+            1.0
+          ],
+          "n_samples": 720,
+          "z_scale": 9.2859,
+          "z_scale_two_sided": null
+        },
+        "naive_mae": 2.375,
+        "corrected_mae": 1.860981526850359,
+        "coverage": 0.9,
+        "n_train": 60,
+        "n_eval": 40,
+        "naive_ci95": [
+          1.925,
+          2.8
+        ],
+        "corrected_ci95": [
+          1.4936569685495997,
+          2.2852259935796626
+        ],
+        "coverage_ci95": [
+          0.8,
+          0.975
+        ]
+      },
+      {
+        "crowding": 0.6,
+        "detector_family": "probit",
+        "z_scale": 20.763368035133713,
+        "curve": {
+          "k": 11.9281,
+          "v0": 0.378,
+          "support": [
+            0.05,
+            1.0
+          ],
+          "n_samples": 720,
+          "z_scale": 20.7634,
+          "z_scale_two_sided": null
+        },
+        "naive_mae": 2.775,
+        "corrected_mae": 2.092187153942206,
+        "coverage": 1.0,
+        "n_train": 60,
+        "n_eval": 40,
+        "naive_ci95": [
+          2.325,
+          3.2
+        ],
+        "corrected_ci95": [
+          1.6953404515526715,
+          2.512633613116249
+        ],
+        "coverage_ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "crowding": 0.8,
+        "detector_family": "probit",
+        "z_scale": 15.620218804942049,
+        "curve": {
+          "k": 11.4567,
+          "v0": 0.3838,
+          "support": [
+            0.05,
+            1.0
+          ],
+          "n_samples": 720,
+          "z_scale": 15.6202,
+          "z_scale_two_sided": null
+        },
+        "naive_mae": 3.8,
+        "corrected_mae": 2.8945990117220624,
+        "coverage": 0.975,
+        "n_train": 60,
+        "n_eval": 40,
+        "naive_ci95": [
+          3.3243750000000003,
+          4.35
+        ],
+        "corrected_ci95": [
+          2.3484371853297588,
+          3.454612621414323
+        ],
+        "coverage_ci95": [
+          0.925,
+          1.0
+        ]
+      }
+    ],
+    "piecewise": [
+      {
+        "crowding": 0.0,
+        "detector_family": "piecewise",
+        "z_scale": 7.338173232063781,
+        "curve": {
+          "k": 7.8657,
+          "v0": 0.4078,
+          "support": [
+            0.05,
+            1.0
+          ],
+          "n_samples": 720,
+          "z_scale": 7.3382,
+          "z_scale_two_sided": null
+        },
+        "naive_mae": 2.875,
+        "corrected_mae": 2.313444046908665,
+        "coverage": 0.9,
+        "n_train": 60,
+        "n_eval": 40,
+        "naive_ci95": [
+          2.4,
+          3.325
+        ],
+        "corrected_ci95": [
+          1.910886971388854,
+          2.7311605171855127
+        ],
+        "coverage_ci95": [
+          0.8,
+          0.975
+        ]
+      },
+      {
+        "crowding": 0.3,
+        "detector_family": "piecewise",
+        "z_scale": 9.184646352000515,
+        "curve": {
+          "k": 7.8567,
+          "v0": 0.3841,
+          "support": [
+            0.05,
+            1.0
+          ],
+          "n_samples": 720,
+          "z_scale": 9.1846,
+          "z_scale_two_sided": null
+        },
+        "naive_mae": 2.85,
+        "corrected_mae": 2.2894123100922146,
+        "coverage": 0.95,
+        "n_train": 60,
+        "n_eval": 40,
+        "naive_ci95": [
+          2.35,
+          3.3
+        ],
+        "corrected_ci95": [
+          1.8339960725666635,
+          2.7471489662011
+        ],
+        "coverage_ci95": [
+          0.875,
+          1.0
+        ]
+      },
+      {
+        "crowding": 0.6,
+        "detector_family": "piecewise",
+        "z_scale": 20.613046440097737,
+        "curve": {
+          "k": 10.5885,
+          "v0": 0.4118,
+          "support": [
+            0.05,
+            1.0
+          ],
+          "n_samples": 720,
+          "z_scale": 20.613,
+          "z_scale_two_sided": null
+        },
+        "naive_mae": 3.4,
+        "corrected_mae": 2.605293641831696,
+        "coverage": 0.925,
+        "n_train": 60,
+        "n_eval": 40,
+        "naive_ci95": [
+          2.95,
+          3.875
+        ],
+        "corrected_ci95": [
+          2.102502634655958,
+          3.0976541033034173
+        ],
+        "coverage_ci95": [
+          0.85,
+          1.0
+        ]
+      },
+      {
+        "crowding": 0.8,
+        "detector_family": "piecewise",
+        "z_scale": 18.367910555456643,
+        "curve": {
+          "k": 9.5672,
+          "v0": 0.4202,
+          "support": [
+            0.05,
+            1.0
+          ],
+          "n_samples": 720,
+          "z_scale": 18.3679,
+          "z_scale_two_sided": null
+        },
+        "naive_mae": 4.175,
+        "corrected_mae": 2.8540186684426603,
+        "coverage": 0.975,
+        "n_train": 60,
+        "n_eval": 40,
+        "naive_ci95": [
+          3.675,
+          4.7
+        ],
+        "corrected_ci95": [
+          2.315348613706985,
+          3.4372391515314913
+        ],
+        "coverage_ci95": [
+          0.925,
+          1.0
+        ]
+      }
+    ],
+    "hard_threshold": [
+      {
+        "crowding": 0.0,
+        "detector_family": "hard_threshold",
+        "z_scale": 7.343904145968452,
+        "curve": {
+          "k": 8.7816,
+          "v0": 0.3598,
+          "support": [
+            0.05,
+            1.0
+          ],
+          "n_samples": 720,
+          "z_scale": 7.3439,
+          "z_scale_two_sided": null
+        },
+        "naive_mae": 2.55,
+        "corrected_mae": 2.0987114909194053,
+        "coverage": 0.8,
+        "n_train": 60,
+        "n_eval": 40,
+        "naive_ci95": [
+          2.1,
+          3.025
+        ],
+        "corrected_ci95": [
+          1.6703771172246809,
+          2.5749279179173854
+        ],
+        "coverage_ci95": [
+          0.675,
+          0.925
+        ]
+      },
+      {
+        "crowding": 0.3,
+        "detector_family": "hard_threshold",
+        "z_scale": 11.529568121705037,
+        "curve": {
+          "k": 9.5197,
+          "v0": 0.3288,
+          "support": [
+            0.05,
+            1.0
+          ],
+          "n_samples": 720,
+          "z_scale": 11.5296,
+          "z_scale_two_sided": null
+        },
+        "naive_mae": 2.275,
+        "corrected_mae": 1.8522998963538686,
+        "coverage": 0.975,
+        "n_train": 60,
+        "n_eval": 40,
+        "naive_ci95": [
+          1.8743750000000001,
+          2.65
+        ],
+        "corrected_ci95": [
+          1.5364337496642506,
+          2.1853394859225936
+        ],
+        "coverage_ci95": [
+          0.925,
+          1.0
+        ]
+      },
+      {
+        "crowding": 0.6,
+        "detector_family": "hard_threshold",
+        "z_scale": 32.862649821890145,
+        "curve": {
+          "k": 15.3583,
+          "v0": 0.3652,
+          "support": [
+            0.05,
+            1.0
+          ],
+          "n_samples": 720,
+          "z_scale": 32.8626,
+          "z_scale_two_sided": null
+        },
+        "naive_mae": 2.925,
+        "corrected_mae": 2.5864774671043174,
+        "coverage": 0.975,
+        "n_train": 60,
+        "n_eval": 40,
+        "naive_ci95": [
+          2.475,
+          3.375
+        ],
+        "corrected_ci95": [
+          2.1569637157307873,
+          3.012346775343785
+        ],
+        "coverage_ci95": [
+          0.925,
+          1.0
+        ]
+      },
+      {
+        "crowding": 0.8,
+        "detector_family": "hard_threshold",
+        "z_scale": 22.028227273574355,
+        "curve": {
+          "k": 13.5075,
+          "v0": 0.3909,
+          "support": [
+            0.05,
+            1.0
+          ],
+          "n_samples": 720,
+          "z_scale": 22.0282,
+          "z_scale_two_sided": null
+        },
+        "naive_mae": 3.6,
+        "corrected_mae": 2.658909401198891,
+        "coverage": 0.975,
+        "n_train": 60,
+        "n_eval": 40,
+        "naive_ci95": [
+          3.1,
+          4.15
+        ],
+        "corrected_ci95": [
+          2.1420672590599343,
+          3.187451925398027
+        ],
+        "coverage_ci95": [
+          0.925,
+          1.0
+        ]
+      }
+    ]
+  },
+  "coverage_when_sigma_depends_on_curve": {
+    "claim_scope": "synthetic_split_conformal_when_sigma_depends_on_curve",
+    "nominal_coverage": 0.9,
+    "theory": "Given exchangeable scenes, split conformal on scores |y-hat(x; curve_A)| / sigma_raw(x; curve_A) computed on B, independent of test C, yields marginal coverage at least 1-alpha on C conditional on A. Joint fit (curve and z on the same worlds) is not that split and can be optimistic. The guarantee is not conditional coverage given a scene, and it assumes the score is almost surely finite.",
+    "joint_same_split": {
+      "n_train": 60,
+      "n_eval": 40,
+      "z_scale": 14.463400593394544,
+      "coverage": 0.975,
+      "coverage_ci95": [
+        0.925,
+        1.0
+      ],
+      "corrected_mae": 2.3408276362141907
+    },
+    "split_curve_A_z_B_eval_C": {
+      "n_A": 60,
+      "n_B": 60,
+      "n_C": 40,
+      "z_scale": 8.187747924275216,
+      "coverage": 0.925,
+      "coverage_ci95": [
+        0.85,
+        1.0
+      ],
+      "corrected_mae": 1.8275462411722596
+    }
+  },
+  "density_map_baseline_not_csrnet_weights": {
+    "crowding": 0.6,
+    "n_eval": 40,
+    "note": "Gaussian / mass-integral density baseline on the synthetic world. CSRNet weights were not trained: no CrowdHuman or ShanghaiTech pixels on this host. Unit-mass equals naive by construction.",
+    "naive_mae": 2.85,
+    "unit_mass_mae": 2.85,
+    "small_box_upweight_mae": 2.67031270266635,
+    "naive_ci95": [
+      2.35,
+      3.35
+    ],
+    "small_box_upweight_ci95": [
+      2.179055638721713,
+      3.1661413795794098
+    ]
+  },
+  "depth_prior_ablation": {
+    "crowding": 0.6,
+    "n_eval": 40,
+    "note": "y2-rank peer occlusion is the CCTV prior. CrowdHuman inversions are 248/270; PersonPath 31408/40631. This ablation drops peer occlusion and keeps static occluders. Default path is unchanged.",
+    "with_peer_occlusion": {
+      "naive_mae": 2.85,
+      "corrected_mae": 2.3408276362141907,
+      "coverage": 0.975
+    },
+    "static_occluders_only": {
+      "naive_mae": 2.85,
+      "corrected_mae": 2.5889575165881182,
+      "coverage": 0.875
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "dhi.amodal.depth-count-compare.v1",
+  "not_a_g1_03_replacement": true,
+  "weights": "yolo11n.pt",
+  "conf": 0.1,
+  "n_found": 150,
+  "n_missing": 0,
+  "y2": {
+    "depth_mode": "y2",
+    "n": 150,
+    "mae_raw": 11.966666666666667,
+    "mae_corrected": 12.595175590735126,
+    "coverage": 0.8266666666666667,
+    "extrapolation_rate": 0.9333333333333333,
+    "better_than_naive": false
+  },
+  "height": {
+    "depth_mode": "height",
+    "n": 150,
+    "mae_raw": 11.966666666666667,
+    "mae_corrected": 12.594062851804217,
+    "coverage": 0.8266666666666667,
+    "extrapolation_rate": 0.9333333333333333,
+    "better_than_naive": false
+  },
+  "height_beats_y2_mae": true,
+  "default_stays": "y2",
+  "note": "Default path stays y2 unless height wins MAE here. G1-03 lock untouched."
+}

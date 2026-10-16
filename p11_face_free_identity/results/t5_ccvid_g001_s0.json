@@ -1,0 +1,16 @@
+{
+ "learned_cc": {
+  "mAP": 0.42354941469036006,
+  "num_queries": 834,
+  "num_valid_queries": 834,
+  "rank1": 0.4172661870503597,
+  "rank5": 0.4844124700239808
+ },
+ "learned_general": {
+  "mAP": 0.4557314186775111,
+  "num_queries": 834,
+  "num_valid_queries": 834,
+  "rank1": 0.4568345323741007,
+  "rank5": 0.5107913669064749
+ }
+}

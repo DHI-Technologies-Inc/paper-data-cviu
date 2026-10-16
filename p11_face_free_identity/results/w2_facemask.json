@@ -1,0 +1,1074 @@
+{
+ "doc": "Item 11.10: face masking and retained information. Evaluates the embeddings extracted by w2_embed.py (box) from the\nlocked MEVID test frames (four frames per tracklet) under mask variants, for the two retrained encoders.\n\nPRE-REGISTERED BEFORE THE FIRST EXTRACTION (2026-10-07, wave 2). The privacy claim this evidence may support is\nonly: 'retrieval accuracy and cross-camera linkability of appearance embeddings after face-region masking, and which\nnon-face information the embedding still carries'. It cannot support 'privacy protection', since linkability is\nexactly what the retrieval task measures.\n  Variants: none (positive control), yunet (OpenCV YuNet face boxes, score >= 0.6, expanded 30 percent, filled with the\n  frame mean colour), band_top15 / band_top25 (top 15 / 25 percent of rows filled; detector-free head region),\n  band_mid15 / band_mid25 (equal-area control bands at rows 45-60 / 35-60 percent).\n  H1 (positive control): variant none equals the cached embeddings exactly (max abs difference 0.0).\n  H2 (linkability survives masking): for yunet and band_top25, general-protocol mAP retains at least 80 percent of the\n     unmasked value (identity-cluster 95 percent CI of the ratio of means has lower limit >= 0.80). FALSIFIED otherwise.\n  H3 (the head band is not special): the mAP change from band_top25 minus the change from the equal-area control\n     band_mid25 has an identity-cluster CI that includes 0. A CI below 0 would indicate head-region reliance.\n  H4 (detector coverage, descriptive): share of frames with a detected face, and of detected face centres that lie\n     inside the top 25 percent band; the detector is not validated on this data, so a non-detection is not evidence of\n     absence of face pixels.\n  Retained information (cache based): ridge-regression probe of the camera id from the embedding, identity-grouped\n  5-fold cross-validation (the probe never sees the held-out identity), against the majority-class rate.\nMultiplicity: Holm over the paired mAP tests (variants x protocols x seeds).\nusage: python3 -I w2_facemask_eval.py PULLED_DIR   (PULLED_DIR holds test_<variant>_<seed>.npz from the box)\nOutputs results/w2_facemask.json.\n",
+ "hypotheses": {
+  "s0": {
+   "H1_max_abs_diff": 0.0,
+   "H2_band_top25_ratio_ci_low": 0.678612659323152,
+   "H2_holds": false,
+   "H2_yunet_ratio_ci_low": 0.9125897638981644,
+   "H3_general_ci": [
+    -0.09544321694126685,
+    -0.03184000435819142
+   ],
+   "H3_general_diff": -0.06418643899404594,
+   "H3_holds_ci_includes_zero": false
+  },
+  "s1": {
+   "H1_max_abs_diff": 0.0,
+   "H2_band_top25_ratio_ci_low": 0.6848990749056054,
+   "H2_holds": false,
+   "H2_yunet_ratio_ci_low": 0.8045840653941239,
+   "H3_general_ci": [
+    -0.0775978722341066,
+    -0.014902334745132136
+   ],
+   "H3_general_diff": -0.04597464363058552,
+   "H3_holds_ci_includes_zero": false
+  }
+ },
+ "runtime_s": 4.68144416809082,
+ "seeds": {
+  "s0": {
+   "H3_top25_vs_mid25": {
+    "cc": {
+     "ci": [
+      -0.08752555021749234,
+      -0.025569405883445157
+     ],
+     "diff": -0.05221412380422607,
+     "n_identities": 44,
+     "n_obs": 284,
+     "p": 0.0009998000399920016
+    },
+    "general": {
+     "ci": [
+      -0.09544321694126685,
+      -0.03184000435819142
+     ],
+     "diff": -0.06418643899404594,
+     "n_identities": 52,
+     "n_obs": 316,
+     "p": 0.0003999200159968006
+    }
+   },
+   "variants": {
+    "band_mid15": {
+     "camera_probe": {
+      "accuracy": 0.6892816419612314,
+      "majority_rate": 0.31527936145952107
+     },
+     "cc": {
+      "mAP": 0.11113173127099037,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.010869307383830766,
+        0.012343695545048019
+       ],
+       "diff": 0.0004249986123682643,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.9408118376324736,
+       "p_holm": 1.0
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.9091185662029749,
+        1.1205574218247594
+       ],
+       "n_den": 31.440712075048676,
+       "n_identities": 44,
+       "point": 1.0038389590421641
+      },
+      "rank1": 0.11267605633802817,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.026122155615365794,
+        0.026765689553413286
+       ],
+       "diff": 0.0,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 1.0
+      }
+     },
+     "general": {
+      "mAP": 0.4148584829752897,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.048550825177882735,
+        -0.019350257127527633
+       ],
+       "diff": -0.032939548402817764,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.0001999600079984003,
+       "p_holm": 0.003999200159968006
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.8921830441602894,
+        0.958096950895542
+       ],
+       "n_den": 141.50417791548196,
+       "n_identities": 52,
+       "point": 0.9264410602667331
+      },
+      "rank1": 0.6582278481012658,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.07902761674970492,
+        -0.0033112582781456954
+       ],
+       "diff": -0.04113924050632911,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.05338932213557288
+      }
+     },
+     "mask_stats": {
+      "box_area_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "box_center_y_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "boxes": 0,
+      "frames": 0,
+      "frames_with_face": 0,
+      "scores": {
+       "mean": null,
+       "n": 0
+      }
+     }
+    },
+    "band_mid25": {
+     "camera_probe": {
+      "accuracy": 0.6744583808437856,
+      "majority_rate": 0.31527936145952107
+     },
+     "cc": {
+      "mAP": 0.11003554928780374,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.01521007658701996,
+        0.016000569212038535
+       ],
+       "diff": -0.0006711833708183686,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.9462107578484303,
+       "p_holm": 1.0
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.8560653815552558,
+        1.1647019884560141
+       ],
+       "n_den": 31.440712075048676,
+       "n_identities": 44,
+       "point": 0.9939372849807785
+      },
+      "rank1": 0.13380281690140844,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.016604869911405182,
+        0.06882627765064836
+       ],
+       "diff": 0.02112676056338028,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.4215156968606279
+      }
+     },
+     "general": {
+      "mAP": 0.3994240951893106,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.0693668864234361,
+        -0.0313874173866532
+       ],
+       "diff": -0.048373936188796846,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.0001999600079984003,
+       "p_holm": 0.003999200159968006
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.8482626838498181,
+        0.9318308410816373
+       ],
+       "n_den": 141.50417791548196,
+       "n_identities": 52,
+       "point": 0.8919737631719257
+      },
+      "rank1": 0.6708860759493671,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.08464769397832278,
+        0.025561153436552787
+       ],
+       "diff": -0.028481012658227847,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.38192361527694463
+      }
+     },
+     "mask_stats": {
+      "box_area_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "box_center_y_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "boxes": 0,
+      "frames": 0,
+      "frames_with_face": 0,
+      "scores": {
+       "mean": null,
+       "n": 0
+      }
+     }
+    },
+    "band_top15": {
+     "camera_probe": {
+      "accuracy": 0.6978335233751425,
+      "majority_rate": 0.31527936145952107
+     },
+     "cc": {
+      "mAP": 0.07282974868656159,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.06223398451856224,
+        -0.01938066517083471
+       ],
+       "diff": -0.03787698397206051,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.0001999600079984003,
+       "p_holm": 0.003999200159968006
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.5085916768398496,
+        0.8075893139670618
+       ],
+       "n_den": 31.440712075048676,
+       "n_identities": 44,
+       "point": 0.6578619650093109
+      },
+      "rank1": 0.06690140845070422,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.09278949892112204,
+        -0.007836452762923388
+       ],
+       "diff": -0.045774647887323945,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.051989602079584085
+      }
+     },
+     "general": {
+      "mAP": 0.36897932467194866,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.10760273705502112,
+        -0.05062981732438815
+       ],
+       "diff": -0.07881870670615873,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.0001999600079984003,
+       "p_holm": 0.003999200159968006
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.75704400316411,
+        0.8908957602032298
+       ],
+       "n_den": 141.50417791548196,
+       "n_identities": 52,
+       "point": 0.8239860357054437
+      },
+      "rank1": 0.6613924050632911,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.09183673469387756,
+        0.011976947006887123
+       ],
+       "diff": -0.0379746835443038,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.19276144771045792
+      }
+     },
+     "mask_stats": {
+      "box_area_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "box_center_y_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "boxes": 0,
+      "frames": 0,
+      "frames_with_face": 0,
+      "scores": {
+       "mean": null,
+       "n": 0
+      }
+     }
+    },
+    "band_top25": {
+     "camera_probe": {
+      "accuracy": 0.7212086659064995,
+      "majority_rate": 0.31527936145952107
+     },
+     "cc": {
+      "mAP": 0.05782142548357765,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.085703315114441,
+        -0.02809177027027108
+       ],
+       "diff": -0.05288530717504444,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.0001999600079984003,
+       "p_holm": 0.003999200159968006
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.3665140516382284,
+        0.6891335449479421
+       ],
+       "n_den": 31.440712075048676,
+       "n_identities": 44,
+       "point": 0.5222936680994568
+      },
+      "rank1": 0.04929577464788732,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.12367668435420778,
+        -0.01509151296728148
+       ],
+       "diff": -0.06338028169014084,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.021195760847830435
+      }
+     },
+     "general": {
+      "mAP": 0.33523765619526463,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.15003986072515169,
+        -0.07861511288163976
+       ],
+       "diff": -0.1125603751828428,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.0001999600079984003,
+       "p_holm": 0.003999200159968006
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.678612659323152,
+        0.8251359026546998
+       ],
+       "n_den": 141.50417791548196,
+       "n_identities": 52,
+       "point": 0.7486358418404923
+      },
+      "rank1": 0.5949367088607594,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.17427232854864436,
+        -0.03797168869544385
+       ],
+       "diff": -0.10443037974683544,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.003799240151969606
+      }
+     },
+     "mask_stats": {
+      "box_area_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "box_center_y_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "boxes": 0,
+      "frames": 0,
+      "frames_with_face": 0,
+      "scores": {
+       "mean": null,
+       "n": 0
+      }
+     }
+    },
+    "none": {
+     "camera_probe": {
+      "accuracy": 0.6801596351197263,
+      "majority_rate": 0.31527936145952107
+     },
+     "cc": {
+      "mAP": 0.11070673265862209,
+      "rank1": 0.11267605633802817
+     },
+     "general": {
+      "mAP": 0.44779803137810736,
+      "rank1": 0.6993670886075949
+     },
+     "mask_stats": {
+      "box_area_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "box_center_y_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "boxes": 0,
+      "frames": 0,
+      "frames_with_face": 0,
+      "scores": {
+       "mean": null,
+       "n": 0
+      }
+     },
+     "positive_control_max_abs_diff_vs_cache": 0.0
+    },
+    "yunet": {
+     "camera_probe": {
+      "accuracy": 0.7023945267958951,
+      "majority_rate": 0.31527936145952107
+     },
+     "cc": {
+      "mAP": 0.10601398711104652,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.015606029381981489,
+        0.004119689884932638
+       ],
+       "diff": -0.0046927455475755785,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.373125374925015,
+       "p_holm": 1.0
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.8847561590305895,
+        1.0377569978075796
+       ],
+       "n_den": 31.440712075048676,
+       "n_identities": 44,
+       "point": 0.9576110193582693
+      },
+      "rank1": 0.13380281690140844,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.010794310006540223,
+        0.05797522750252778
+       ],
+       "diff": 0.02112676056338028,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.39992001599680066
+      }
+     },
+     "general": {
+      "mAP": 0.42295581279094835,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.0402871357919466,
+        -0.011303694661957126
+       ],
+       "diff": -0.02484221858715917,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.0005998800239952009,
+       "p_holm": 0.004799040191961607
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.9125897638981644,
+        0.9746388930013365
+       ],
+       "n_den": 141.50417791548196,
+       "n_identities": 52,
+       "point": 0.9445236092023299
+      },
+      "rank1": 0.6930379746835443,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.039607238869582326,
+        0.02491130918725956
+       ],
+       "diff": -0.006329113924050633,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.8462307538492302
+      }
+     },
+     "mask_stats": {
+      "box_area_frac": {
+       "mean": 0.03857212756934372,
+       "n": 3140
+      },
+      "box_center_y_frac": {
+       "mean": 0.18919240319291988,
+       "n": 3140
+      },
+      "boxes": 3140,
+      "frames": 6994,
+      "frames_with_face": 2853,
+      "scores": {
+       "mean": 0.8119218390458708,
+       "n": 3140
+      }
+     }
+    }
+   },
+   "yunet_query_subgroups_general": {
+    "mAP_none_with_face": 0.4668141375324754,
+    "mAP_none_without_face": 0.41795975098954624,
+    "mAP_yunet_with_face": 0.425467043496256,
+    "mAP_yunet_without_face": 0.41901542639969297,
+    "queries_with_detected_face_in_any_frame": 193,
+    "queries_without": 123
+   }
+  },
+  "s1": {
+   "H3_top25_vs_mid25": {
+    "cc": {
+     "ci": [
+      -0.07207294544844133,
+      0.007325218866665107
+     ],
+     "diff": -0.02857953907568989,
+     "n_identities": 44,
+     "n_obs": 284,
+     "p": 0.1731653669266147
+    },
+    "general": {
+     "ci": [
+      -0.0775978722341066,
+      -0.014902334745132136
+     ],
+     "diff": -0.04597464363058552,
+     "n_identities": 52,
+     "n_obs": 316,
+     "p": 0.003999200159968006
+    }
+   },
+   "variants": {
+    "band_mid15": {
+     "camera_probe": {
+      "accuracy": 0.7103762827822121,
+      "majority_rate": 0.31527936145952107
+     },
+     "cc": {
+      "mAP": 0.1057801205225535,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.04481726772151788,
+        0.0013847220670160526
+       ],
+       "diff": -0.018771804673855023,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.11357728454309138,
+       "p_holm": 0.4543091381723655
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.6686006304910057,
+        1.0129122472464045
+       ],
+       "n_den": 35.37274675578002,
+       "n_identities": 44,
+       "point": 0.8492853109716823
+      },
+      "rank1": 0.13028169014084506,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.04132231404958678,
+        0.019869199797584204
+       ],
+       "diff": -0.01056338028169014,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.648870225954809
+      }
+     },
+     "general": {
+      "mAP": 0.39411320558019924,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.06860179386844231,
+        -0.022626240247372403
+       ],
+       "diff": -0.04303030793498084,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.0001999600079984003,
+       "p_holm": 0.003999200159968006
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.8521236871028047,
+        0.9489025567767384
+       ],
+       "n_den": 138.13735027079693,
+       "n_identities": 52,
+       "point": 0.9015648028516692
+      },
+      "rank1": 0.6993670886075949,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.06303789462815251,
+        0.010990021008403357
+       ],
+       "diff": -0.02531645569620253,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.2525494901019796
+      }
+     },
+     "mask_stats": {
+      "box_area_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "box_center_y_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "boxes": 0,
+      "frames": 0,
+      "frames_with_face": 0,
+      "scores": {
+       "mean": null,
+       "n": 0
+      }
+     }
+    },
+    "band_mid25": {
+     "camera_probe": {
+      "accuracy": 0.7132269099201825,
+      "majority_rate": 0.31527936145952107
+     },
+     "cc": {
+      "mAP": 0.09719741850802692,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.05548435874221965,
+        -0.006507006083538334
+       ],
+       "diff": -0.027354506688381623,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.014597080583883223,
+       "p_holm": 0.07298540291941612
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.5771752392613263,
+        0.9349410844539278
+       ],
+       "n_den": 35.37274675578002,
+       "n_identities": 44,
+       "point": 0.780376685103456
+      },
+      "rank1": 0.10915492957746478,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.06329784381034113,
+        -0.0036222144304192045
+       ],
+       "diff": -0.03169014084507042,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.08038392321535692
+      }
+     },
+     "general": {
+      "mAP": 0.37872601977031484,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.08587141094818233,
+        -0.034323226143292404
+       ],
+       "diff": -0.0584174937448653,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.0001999600079984003,
+       "p_holm": 0.003999200159968006
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.8110689681681087,
+        0.9179841353999444
+       ],
+       "n_den": 138.13735027079693,
+       "n_identities": 52,
+       "point": 0.8663654110406085
+      },
+      "rank1": 0.6613924050632911,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.12084744343908621,
+        -0.017855554143365537
+       ],
+       "diff": -0.06329113924050633,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.014197160567886422
+      }
+     },
+     "mask_stats": {
+      "box_area_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "box_center_y_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "boxes": 0,
+      "frames": 0,
+      "frames_with_face": 0,
+      "scores": {
+       "mean": null,
+       "n": 0
+      }
+     }
+    },
+    "band_top15": {
+     "camera_probe": {
+      "accuracy": 0.6784492588369442,
+      "majority_rate": 0.31527936145952107
+     },
+     "cc": {
+      "mAP": 0.09160454418305009,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.06406088551840593,
+        -0.010175717604230838
+       ],
+       "diff": -0.032947381013358444,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.0027994401119776045,
+       "p_holm": 0.016796640671865627
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.5899935715933137,
+        0.8959382684998073
+       ],
+       "n_den": 35.37274675578002,
+       "n_identities": 44,
+       "point": 0.7354727278490234
+      },
+      "rank1": 0.09507042253521127,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.10098900061369967,
+        0.0
+       ],
+       "diff": -0.045774647887323945,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.09598080383923216
+      }
+     },
+     "general": {
+      "mAP": 0.37654137947289607,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.08654132203014137,
+        -0.037022845730556524
+       ],
+       "diff": -0.06060213404228406,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.0001999600079984003,
+       "p_holm": 0.003999200159968006
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.809772101854994,
+        0.9130032157682868
+       ],
+       "n_den": 138.13735027079693,
+       "n_identities": 52,
+       "point": 0.8613678753804049
+      },
+      "rank1": 0.6772151898734177,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.11072693388448945,
+        0.008648693058294134
+       ],
+       "diff": -0.04746835443037975,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.16516696660667868
+      }
+     },
+     "mask_stats": {
+      "box_area_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "box_center_y_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "boxes": 0,
+      "frames": 0,
+      "frames_with_face": 0,
+      "scores": {
+       "mean": null,
+       "n": 0
+      }
+     }
+    },
+    "band_top25": {
+     "camera_probe": {
+      "accuracy": 0.6989737742303307,
+      "majority_rate": 0.31527936145952107
+     },
+     "cc": {
+      "mAP": 0.068617879432337,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.10029070626889021,
+        -0.020508471157015176
+       ],
+       "diff": -0.05593404576407151,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.001799640071985603,
+       "p_holm": 0.01259748050389922
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.3724926326247133,
+        0.7837753452286119
+       ],
+       "n_den": 35.37274675578002,
+       "n_identities": 44,
+       "point": 0.5509178547351401
+      },
+      "rank1": 0.07746478873239436,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.131490165725733,
+        0.003670634920634879
+       ],
+       "diff": -0.06338028169014084,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.08578284343131373
+      }
+     },
+     "general": {
+      "mAP": 0.33275137613972927,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.15003551565386972,
+        -0.06734234069328843
+       ],
+       "diff": -0.10439213737545082,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.0001999600079984003,
+       "p_holm": 0.003999200159968006
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.6848990749056054,
+        0.8430434225192749
+       ],
+       "n_den": 138.13735027079693,
+       "n_identities": 52,
+       "point": 0.7611948155515165
+      },
+      "rank1": 0.6139240506329114,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.20477815699658702,
+        -0.019933554817275746
+       ],
+       "diff": -0.11075949367088607,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.023595280943811237
+      }
+     },
+     "mask_stats": {
+      "box_area_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "box_center_y_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "boxes": 0,
+      "frames": 0,
+      "frames_with_face": 0,
+      "scores": {
+       "mean": null,
+       "n": 0
+      }
+     }
+    },
+    "none": {
+     "camera_probe": {
+      "accuracy": 0.6835803876852907,
+      "majority_rate": 0.31527936145952107
+     },
+     "cc": {
+      "mAP": 0.12455192519640852,
+      "rank1": 0.14084507042253522
+     },
+     "general": {
+      "mAP": 0.43714351351518005,
+      "rank1": 0.7246835443037974
+     },
+     "mask_stats": {
+      "box_area_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "box_center_y_frac": {
+       "mean": null,
+       "n": 0
+      },
+      "boxes": 0,
+      "frames": 0,
+      "frames_with_face": 0,
+      "scores": {
+       "mean": null,
+       "n": 0
+      }
+     },
+     "positive_control_max_abs_diff_vs_cache": 0.0
+    },
+    "yunet": {
+     "camera_probe": {
+      "accuracy": 0.6921322690992018,
+      "majority_rate": 0.31527936145952107
+     },
+     "cc": {
+      "mAP": 0.09325974137268761,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.05534831950836117,
+        -0.013296571072543055
+       ],
+       "diff": -0.03129218382372092,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.0001999600079984003,
+       "p_holm": 0.003999200159968006
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.6437812545064645,
+        0.858356275138352
+       ],
+       "n_den": 35.37274675578002,
+       "n_identities": 44,
+       "point": 0.7487619418617929
+      },
+      "rank1": 0.11267605633802817,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.056742636480654196,
+        0.0
+       ],
+       "diff": -0.028169014084507043,
+       "n_identities": 44,
+       "n_obs": 284,
+       "p": 0.09658068386322735
+      }
+     },
+     "general": {
+      "mAP": 0.37480931092625513,
+      "mAP_diff_vs_none": {
+       "ci": [
+        -0.08793483035396003,
+        -0.03674961271238909
+       ],
+       "diff": -0.06233420258892504,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.0001999600079984003,
+       "p_holm": 0.003999200159968006
+      },
+      "mAP_ratio_vs_none": {
+       "ci": [
+        0.8045840653941239,
+        0.9148161471020135
+       ],
+       "n_den": 138.13735027079693,
+       "n_identities": 52,
+       "point": 0.8574056330204235
+      },
+      "rank1": 0.6487341772151899,
+      "rank1_diff_vs_none": {
+       "ci": [
+        -0.1557228589965398,
+        -0.0163359032933562
+       ],
+       "diff": -0.0759493670886076,
+       "n_identities": 52,
+       "n_obs": 316,
+       "p": 0.01839632073585283
+      }
+     },
+     "mask_stats": {
+      "box_area_frac": {
+       "mean": 0.03857212756934372,
+       "n": 3140
+      },
+      "box_center_y_frac": {
+       "mean": 0.18919240319291988,
+       "n": 3140
+      },
+      "boxes": 3140,
+      "frames": 6994,
+      "frames_with_face": 2853,
+      "scores": {
+       "mean": 0.8119218390458708,
+       "n": 3140
+      }
+     }
+    }
+   },
+   "yunet_query_subgroups_general": {
+    "mAP_none_with_face": 0.44422680955408017,
+    "mAP_none_without_face": 0.4260290733891011,
+    "mAP_yunet_with_face": 0.3592670283668013,
+    "mAP_yunet_without_face": 0.3991967949423087,
+    "queries_with_detected_face_in_any_frame": 193,
+    "queries_without": 123
+   }
+  }
+ }
+}

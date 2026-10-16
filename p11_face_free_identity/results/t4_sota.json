@@ -1,0 +1,285 @@
+{
+ "hamobe_same_clothes_reference": {
+  "R1": 74.0,
+  "R5": 84.7,
+  "mAP": 54.3,
+  "note": "Same-clothes protocol (query and gallery share clothes); easier than general and not evaluated here"
+ },
+ "notes": {
+  "clip3dreid_source": "CLIP3DReID values are those HAMoBE Table 3 attribute to it",
+  "csci_dc": "different-clothes columns for CSCI rows are the CC columns of CSCI supplementary Table 9",
+  "dcgn_shaarc_source": "values for ShARc and DCGN are those CSCI Tables 8 and 9 attribute to them, not read from their own papers",
+  "mevid_dc_definition": "all gallery tracklets differ in clothes from the query (MEVID Sec. 4.2.1)",
+  "protocol_caveat": "published rows follow each paper's own MEVID evaluator; junk-handling and camera rules may differ from the locked evaluator used for our rows"
+ },
+ "ours": {
+  "G0-01 mean best": {
+   "diff_clothes": [
+    10.211267605633804,
+    22.535211267605636,
+    9.343814785681879
+   ],
+   "file": "inputs/a8_g0_01_fr4_best_locked_raw_rerank.json",
+   "general": [
+    71.51898734177216,
+    81.32911392405063,
+    41.08618007585156
+   ],
+   "sha256": "fa98eb6dd85580c0e9b62debe840cf09a834745c6aba5225e74fc3bca804db2e"
+  },
+  "G0-02 attention best": {
+   "diff_clothes": [
+    9.15492957746479,
+    17.95774647887324,
+    8.631029573950366
+   ],
+   "file": "inputs/a8_g0_02_attn2_best_locked_raw_rerank.json",
+   "general": [
+    62.9746835443038,
+    76.89873417721519,
+    38.35223925665096
+   ],
+   "sha256": "2752231837da57724f6ffa48c29c3e291a4532edb2c69d4ef475ffcff87c526a"
+  },
+  "G0-02 label-free k-reciprocal": {
+   "diff_clothes": [
+    9.859154929577464,
+    18.30985915492958,
+    10.416427875196744
+   ],
+   "file": "results/t1_labelfree_g002.json",
+   "general": [
+    62.34177215189873,
+    73.41772151898735,
+    44.764654136259956
+   ],
+   "sha256": "9337857d2b364a60b163b5a40381af4d6bfa08a418a9b3095ad955feced87268"
+  },
+  "G0-03 mean final": {
+   "diff_clothes": [
+    11.267605633802818,
+    20.774647887323944,
+    10.382462522487364
+   ],
+   "file": "inputs/a8_g0_03_fr4_final_locked_raw_rerank.json",
+   "general": [
+    63.29113924050633,
+    79.43037974683544,
+    38.95970618911377
+   ],
+   "sha256": "1b596691e82f86be32c0fbc5e85073576872ca98b2eab8b9a776787ea8e37c5f"
+  }
+ },
+ "primary_pdf_sha256_read": {
+  "csci_2507.07230v1": "9bedd3d439b5017a45c06b1373648deb19cce685ab1589bfac0b0b7e2caf41e7",
+  "hamobe_2508.05038v2": "68871504e0517d9d49126e113b66926aad7dd3e9cbf10e76c432422ba8557123",
+  "mevid_2211.04656": "65ca4d843f56116db9e768cafaee106c9b990e9441bc0a30e42bb63ee2198a48"
+ },
+ "published": [
+  {
+   "diff_clothes_r1_r5_map": [
+    3.5,
+    10.6,
+    4.3
+   ],
+   "general_r1_r5_map": [
+    52.5,
+    66.5,
+    27.1
+   ],
+   "method": "CAL",
+   "source": "mevid"
+  },
+  {
+   "diff_clothes_r1_r5_map": [
+    4.9,
+    15.1,
+    5.7
+   ],
+   "general_r1_r5_map": [
+    48.4,
+    62.7,
+    19.1
+   ],
+   "method": "AGRL",
+   "source": "mevid"
+  },
+  {
+   "diff_clothes_r1_r5_map": [
+    3.5,
+    8.8,
+    3.9
+   ],
+   "general_r1_r5_map": [
+    48.1,
+    60.1,
+    23.0
+   ],
+   "method": "TCLNet",
+   "source": "mevid"
+  },
+  {
+   "diff_clothes_r1_r5_map": [
+    5.6,
+    12.3,
+    5.1
+   ],
+   "general_r1_r5_map": [
+    46.2,
+    60.8,
+    21.2
+   ],
+   "method": "PSTA",
+   "source": "mevid"
+  },
+  {
+   "diff_clothes_r1_r5_map": [
+    1.8,
+    7.4,
+    2.9
+   ],
+   "general_r1_r5_map": [
+    39.6,
+    56.0,
+    15.9
+   ],
+   "method": "AP3D",
+   "source": "mevid"
+  },
+  {
+   "diff_clothes_r1_r5_map": [
+    null,
+    null,
+    null
+   ],
+   "general_r1_r5_map": [
+    59.5,
+    70.3,
+    29.6
+   ],
+   "method": "ShARc",
+   "source": "csci"
+  },
+  {
+   "diff_clothes_r1_r5_map": [
+    13.4,
+    null,
+    6.8
+   ],
+   "general_r1_r5_map": [
+    58.5,
+    null,
+    27.5
+   ],
+   "method": "DCGN",
+   "source": "csci"
+  },
+  {
+   "diff_clothes_r1_r5_map": [
+    11.2,
+    19.4,
+    9.6
+   ],
+   "general_r1_r5_map": [
+    null,
+    null,
+    null
+   ],
+   "method": "CLIP3DReID",
+   "source": "hamobe"
+  },
+  {
+   "diff_clothes_r1_r5_map": [
+    20.1,
+    29.2,
+    15.1
+   ],
+   "general_r1_r5_map": [
+    null,
+    null,
+    null
+   ],
+   "method": "HAMoBE",
+   "source": "hamobe"
+  },
+  {
+   "diff_clothes_r1_r5_map": [
+    17.6,
+    null,
+    16.2
+   ],
+   "general_r1_r5_map": [
+    73.5,
+    83.7,
+    47.5
+   ],
+   "method": "EVA-02 image baseline (CSCI)",
+   "source": "csci"
+  },
+  {
+   "diff_clothes_r1_r5_map": [
+    20.8,
+    null,
+    19.8
+   ],
+   "general_r1_r5_map": [
+    76.6,
+    84.8,
+    55.5
+   ],
+   "method": "EVA-02 + EZ-CLIP baseline (CSCI)",
+   "source": "csci"
+  },
+  {
+   "diff_clothes_r1_r5_map": [
+    22.0,
+    null,
+    22.0
+   ],
+   "general_r1_r5_map": [
+    79.1,
+    87.5,
+    56.9
+   ],
+   "method": "CSCI-V, pixel binning",
+   "source": "csci"
+  },
+  {
+   "diff_clothes_r1_r5_map": [
+    22.2,
+    null,
+    21.6
+   ],
+   "general_r1_r5_map": [
+    79.1,
+    87.2,
+    55.6
+   ],
+   "method": "CSCI-V, RGB-uv",
+   "source": "csci"
+  }
+ ],
+ "sources": {
+  "csci": {
+   "pdf": "https://arxiv.org/pdf/2507.07230",
+   "tables": "main Table 2 (MeVID overall), supplementary Table 8 and Table 9",
+   "title": "Colors See, Colors Ignore: Clothes Changing ReID with Color Disentanglement",
+   "url": "https://arxiv.org/abs/2507.07230",
+   "venue": "ICCV 2025"
+  },
+  "hamobe": {
+   "pdf": "https://arxiv.org/pdf/2508.05038",
+   "tables": "Table 3 (MEVID same / different clothes)",
+   "title": "HAMoBE: Hierarchical and Adaptive Mixture of Biometric Experts for Video-based Person ReID",
+   "url": "https://arxiv.org/abs/2508.05038",
+   "venue": "ICCV 2025"
+  },
+  "mevid": {
+   "pdf": "https://arxiv.org/pdf/2211.04656",
+   "tables": "Table 2 (overall), Table 3 (same / different clothes)",
+   "title": "MEVID: Multi-view Extended Videos with Identities for Video Person Re-Identification",
+   "url": "https://arxiv.org/abs/2211.04656",
+   "venue": "WACV 2023"
+  }
+ }
+}

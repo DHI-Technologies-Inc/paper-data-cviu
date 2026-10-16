@@ -1,0 +1,204 @@
+{
+  "alert_bucket": {
+    "error_threshold": 10.0,
+    "flag_rate": 0.9133333333333333,
+    "fn": 1,
+    "fp": 101,
+    "note": "Operator alert-bucket: treat extrapolation_limited as 'do not trust this count' and score it against |corrected_error|.",
+    "precision": 0.26277372262773724,
+    "recall": 0.972972972972973,
+    "tn": 12,
+    "tp": 36
+  },
+  "command": [
+    "python",
+    "scripts/analyze_cached_rows.py",
+    "--seed=0",
+    "--output=paper_evidence/results.json"
+  ],
+  "comparison_extrapolation_rate": {
+    "extrapolation_limited": 137,
+    "n_scenes": 150,
+    "percent": 91.33333333333333,
+    "rate": 0.9133333333333333
+  },
+  "comparison_mae": {
+    "mae_corrected": 14.246866666666667,
+    "mae_naive": 11.766666666666667
+  },
+  "depth_order_confound": {
+    "bottom_edge_rank_inversions": 248,
+    "images": 270,
+    "images_with_two_or_more_people": 270,
+    "inversion_rate": 0.9185185185185185,
+    "note": "vbox vs fbox y2 ranking. An inversion means visible-box depth order disagrees with full-box depth order on that image.",
+    "people": 6809
+  },
+  "extrapolation_rate": {
+    "extrapolation_limited": 137,
+    "n_scenes": 150,
+    "percent": 91.33333333333333,
+    "rate": 0.9133333333333333
+  },
+  "g1_03": {
+    "status": "executed_2026-08-24_diagnostic_null",
+    "score_file": "evidence/a4_protocol/evaluation_result_v1.json",
+    "score_sha256": "2ee47322225175fe2b30f981a2a0ac90870ac91a10fe046d48395f26fad63605",
+    "detections_sha256": "5778856f138e44be7f7cc4a8c48aaef099ca3042d6b12312d5fbb5da79eacb53",
+    "detector_sha256": "18617cf2ffbb68f0e19b09631a05b1d6fd57b96737f10249f2917ed88bf46b4b",
+    "mae_raw": 11.76,
+    "mae_corrected": 11.02601778552648,
+    "coverage": 0.9066666666666666,
+    "extrapolation_count": 137,
+    "scenes": 150,
+    "extrapolation_percent": 91.33333333333333,
+    "in_support_scenes": 13,
+    "in_support_mae_corrected": 3.7999560148991955,
+    "in_support_mae_raw": 3.6923076923076925,
+    "bootstrap_95": [-0.34556687523393653, 1.760704101902026],
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260816,
+    "release_decision_passed": true,
+    "release_decision_status": "supported_candidate_with_documented_extrapolation",
+    "release_accepted_default": false,
+    "provenance_limit": "later GPU pass wrote detections while an earlier fetch was still running; single execution asserted, not proven from a launcher log",
+    "not_a_headline": true,
+    "do_not_replace_b5_11_031": true
+  },
+  "headline_rows": "rows_two_sided_min_p070.json",
+  "inputs": {
+    "detections_raw_conf": {
+      "n_images": 270,
+      "path": "products/amodal-counting/evidence/a4_realdata/detections_raw_conf.json",
+      "sha256": "e1620f64534a1555b18036ade3d17e493018ddd898c381633fed4865c66d3e52"
+    },
+    "gt_subset": {
+      "path": "products/amodal-counting/evidence/a4_realdata/gt_subset.json",
+      "sha256": "9cf017642418d0592e22783b506326c119bfae812fc9a5907a9763efa2401a47"
+    },
+    "rows_comparison": {
+      "path": "products/amodal-counting/evidence/a4_realdata/rows_two_sided.json",
+      "sha256": "d7943a5666c5ae00580245d477d193a792d6adf7b1227cda2a57f945389a80b1"
+    },
+    "rows_primary": {
+      "path": "products/amodal-counting/evidence/a4_realdata/rows_two_sided_min_p070.json",
+      "sha256": "ef5b128fd579cfe65b5440c851c9c30a0dd2df584369a93d170aab5769b4b9a9"
+    }
+  },
+  "multi_split_robustness": {
+    "folds": [
+      {
+        "fold": 0,
+        "mae_corrected": 8.328333333333335,
+        "mae_naive": 8.9,
+        "n": 30
+      },
+      {
+        "fold": 1,
+        "mae_corrected": 6.383333333333334,
+        "mae_naive": 6.333333333333333,
+        "n": 30
+      },
+      {
+        "fold": 2,
+        "mae_corrected": 21.576999999999995,
+        "mae_naive": 22.9,
+        "n": 30
+      },
+      {
+        "fold": 3,
+        "mae_corrected": 6.5763333333333325,
+        "mae_naive": 7.766666666666667,
+        "n": 30
+      },
+      {
+        "fold": 4,
+        "mae_corrected": 12.291666666666664,
+        "mae_naive": 12.933333333333334,
+        "n": 30
+      }
+    ],
+    "mae_corrected_range": [
+      6.383333333333334,
+      21.576999999999995
+    ],
+    "n_splits": 5,
+    "note": "Robustness of cached scores under re-partition, not a new detector eval.",
+    "seed": 0
+  },
+  "note": "Cached diagnostic analysis of historical B5 rows plus the real G1-03 score file. Historical B5 / B4 stay leaked. G1-03 is diagnostic / null, not a headline.",
+  "paired_bootstrap": {
+    "bootstrap_delta_ci90": [
+      -1.5927433333333325,
+      0.17882333333333353
+    ],
+    "bootstrap_delta_mean": -0.7301696000000001,
+    "delta_corrected_minus_naive": -0.7353333333333332,
+    "mae_corrected": 11.031333333333334,
+    "mae_naive": 11.766666666666667,
+    "n_boot": 2000,
+    "n_scenes": 150,
+    "note": "Historical diagnostic rows only. Negative delta means corrected MAE was lower on a resample. Not a leak-free G1 result.",
+    "seed": 0,
+    "share_delta_below_zero": 0.911
+  },
+  "second_detector_selection_2026_09_05": {
+    "not_g1_freeze": true,
+    "evaluation_labels_opened": false,
+    "split": "selection_40",
+    "command": "PYTHONPATH=src python3 scripts/compare_detector_counting.py --out evidence/a4_protocol/research_counting_compare_2026-09-05.json evidence/a4_protocol/selection_detections_v1.json evidence/a4_protocol/A4-T103-yolo11n-selection.json evidence/a4_protocol/A4-T103-yolo11s-selection.json evidence/a4_protocol/A4-T103-yolov8n-selection.json evidence/a4_protocol/A4-T102-rtdetrx-selection.json",
+    "compare_sha256": "bd69323eb54feabcc05e5ded3d7c342543cd783ad2053417f795506e6b3a1c34",
+    "note": "Each dump refits detectability, precision, and two-sided z on the 40-image selection split. Not a G1-03 reopen. Not a CrowdHuman headline.",
+    "rows": [
+      {"job": "yolov8s.pt", "mae_naive": 12.05, "mae_corrected": 11.78881947138051, "better_than_naive": true, "coverage": 0.925, "extrapolation_rate": 0.95},
+      {"job": "A4-T103-yolo11n-selection", "mae_naive": 14.45, "mae_corrected": 13.568209771992368, "better_than_naive": true, "coverage": 0.9, "extrapolation_rate": 0.65},
+      {"job": "A4-T103-yolo11s-selection", "mae_naive": 14.05, "mae_corrected": 13.121130496276194, "better_than_naive": true, "coverage": 0.9, "extrapolation_rate": 0.575},
+      {"job": "A4-T103-yolov8n-selection", "mae_naive": 13.425, "mae_corrected": 12.588568902499796, "better_than_naive": true, "coverage": 0.925, "extrapolation_rate": 0.7},
+      {"job": "A4-T102-rtdetrx-selection", "mae_naive": 9.625, "mae_corrected": 10.12819939895191, "better_than_naive": false, "coverage": 0.9, "extrapolation_rate": 0.75}
+    ]
+  },
+  "leftover_depth_order": {
+    "subset_270_in_this_file": "248/270 rate 0.9185 among 6809 people",
+    "full_ch_val": "paper_evidence/depth_order_fix.json 3938/4370 = 0.901",
+    "not_a_g1_03_reopen": true
+  },
+  "schema": "dhi.amodal.paper-evidence.v1",
+  "seed": 0,
+  "venue": "TIP",
+  "leftover_isolated_suite": {
+    "verbatim": "197 passed in 15.20s",
+    "head": "e9364fa",
+    "date": "2026-09-19"
+  },
+  "leftover_remeasure_2026_09_19": {
+    "not_a_g1_03_reopen": true,
+    "lock_not_overwritten": true,
+    "evaluation_result_v1_sha256": "2ee47322225175fe2b30f981a2a0ac90870ac91a10fe046d48395f26fad63605",
+    "evaluation_result_v1_bytes": 231399,
+    "matches_lock_sha256": true,
+    "rows_json": {
+      "mae_naive": 14.08,
+      "mae_corrected": 28.204,
+      "coverage": 0.3933,
+      "over": 85,
+      "under": 55,
+      "equal": 10,
+      "excess_sum": 1045.0,
+      "shortfall": 1067.0
+    },
+    "rows_two_sided_json": {
+      "n_negative_ci_low": 0,
+      "ci_low_eq_0": 112,
+      "ci_low_gt_0": 38,
+      "mae_naive": 11.767,
+      "mae_corrected": 14.247
+    },
+    "rows_two_sided_min_p070_json": {
+      "n_negative_ci_low": 0,
+      "ci_low_eq_0": 107,
+      "mae_naive": 11.767,
+      "mae_corrected": 11.031,
+      "coverage": 0.9067
+    }
+  }
+}

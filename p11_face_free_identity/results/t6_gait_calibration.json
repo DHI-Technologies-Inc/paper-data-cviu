@@ -1,0 +1,164 @@
+{
+  "controlled_variant": {
+    "auc_genuine_closer": 0.8070118856837607,
+    "description": "fixed 48 frames, no cadence jitter, random start phase, noise 0.01, seed 0",
+    "genuine_mean": 0.0831292306125644,
+    "genuine_p95": 0.12401253554673632,
+    "genuine_std": 0.02292821511955401,
+    "impostor_frac_below_genuine_p95": 0.596073717948718,
+    "impostor_mean": 0.11893109441678765,
+    "impostor_p05": 0.06901942343948214,
+    "impostor_std": 0.033799443245930434,
+    "n_genuine_pairs": 240,
+    "n_impostor_pairs": 12480
+  },
+  "fps": 16.0,
+  "n_sequences_per_subject": 4,
+  "n_subjects": 40,
+  "noise_sweep": {
+    "0.005": {
+      "auc_genuine_closer": 0.5436334802350428,
+      "genuine_mean": 0.12431111676374897,
+      "genuine_p95": 0.2107201809916991,
+      "genuine_std": 0.04513300016578429,
+      "impostor_frac_below_genuine_p95": 0.9519230769230769,
+      "impostor_mean": 0.13018806229881502,
+      "impostor_p05": 0.06777812362933511,
+      "impostor_std": 0.04366097016905369,
+      "n_genuine_pairs": 240,
+      "n_impostor_pairs": 12480
+    },
+    "0.01": {
+      "auc_genuine_closer": 0.5453435496794872,
+      "genuine_mean": 0.11815679722051149,
+      "genuine_p95": 0.18630947321687577,
+      "genuine_std": 0.037884637000501965,
+      "impostor_frac_below_genuine_p95": 0.9508814102564103,
+      "impostor_mean": 0.1226501994295567,
+      "impostor_p05": 0.07033709274552205,
+      "impostor_std": 0.035439696723688054,
+      "n_genuine_pairs": 240,
+      "n_impostor_pairs": 12480
+    },
+    "0.02": {
+      "auc_genuine_closer": 0.5285834001068376,
+      "genuine_mean": 0.11204117497074725,
+      "genuine_p95": 0.15968613957777145,
+      "genuine_std": 0.027936256729459413,
+      "impostor_frac_below_genuine_p95": 0.9475160256410257,
+      "impostor_mean": 0.11399918832022926,
+      "impostor_p05": 0.07329307825819219,
+      "impostor_std": 0.026379799503406808,
+      "n_genuine_pairs": 240,
+      "n_impostor_pairs": 12480
+    }
+  },
+  "primary": {
+    "auc_genuine_closer": 0.5453435496794872,
+    "genuine_mean": 0.11815679722051149,
+    "genuine_p95": 0.18630947321687577,
+    "genuine_std": 0.037884637000501965,
+    "impostor_frac_below_genuine_p95": 0.9508814102564103,
+    "impostor_mean": 0.1226501994295567,
+    "impostor_p05": 0.07033709274552205,
+    "impostor_std": 0.035439696723688054,
+    "n_genuine_pairs": 240,
+    "n_impostor_pairs": 12480,
+    "noise": 0.01,
+    "population_seed": 0
+  },
+  "protocol": "Task 6: seeded synthetic calibration of the heuristic gait descriptor (gait_cue).\n\nProtocol, fixed before the run: a population of 40 synthetic walkers whose body and gait\nparameters are drawn uniformly from the ranges below; 4 sequences per walker, each with a\nrandom start phase, a within-walker cadence jitter of +/-5 percent, a random length of 32 to\n64 frames at 16 fps, and Gaussian keypoint noise. The gait vector is the first element of\ngait_cue(series). Genuine pairs: all pairs of sequences of the same walker. Impostor pairs:\nall pairs from different walkers. Distance: Euclidean between the two L2-normalised vectors.\nPrimary setting: noise 0.01, population seed 0. Secondary: noise 0.005 and 0.02, and\npopulation seeds 0 to 4 for the primary noise, to show spread. Skeleton geometry follows\ndemo/walkers.py of the face-free-reid product (coordinates are image-normalised units).\nRun: python3 -I t6_gait_calibration.py\n",
+  "ranges": {
+    "cadence": [
+      0.7,
+      1.3
+    ],
+    "height": [
+      1.5,
+      1.9
+    ],
+    "hip": [
+      0.28,
+      0.38
+    ],
+    "leg_ratio": [
+      0.44,
+      0.56
+    ],
+    "shoulder": [
+      0.32,
+      0.46
+    ],
+    "stride": [
+      0.06,
+      0.12
+    ]
+  },
+  "seed_sweep": {
+    "0": {
+      "auc_genuine_closer": 0.5453435496794872,
+      "genuine_mean": 0.11815679722051149,
+      "genuine_p95": 0.18630947321687577,
+      "genuine_std": 0.037884637000501965,
+      "impostor_frac_below_genuine_p95": 0.9508814102564103,
+      "impostor_mean": 0.1226501994295567,
+      "impostor_p05": 0.07033709274552205,
+      "impostor_std": 0.035439696723688054,
+      "n_genuine_pairs": 240,
+      "n_impostor_pairs": 12480
+    },
+    "1": {
+      "auc_genuine_closer": 0.5990761885683761,
+      "genuine_mean": 0.11784772571948485,
+      "genuine_p95": 0.1863450406072896,
+      "genuine_std": 0.037630986886331035,
+      "impostor_frac_below_genuine_p95": 0.9361378205128205,
+      "impostor_mean": 0.12950910391978182,
+      "impostor_p05": 0.07553408652923553,
+      "impostor_std": 0.03504951338546294,
+      "n_genuine_pairs": 240,
+      "n_impostor_pairs": 12480
+    },
+    "2": {
+      "auc_genuine_closer": 0.6449666132478632,
+      "genuine_mean": 0.10974950429132217,
+      "genuine_p95": 0.18441090560443574,
+      "genuine_std": 0.03624856802132914,
+      "impostor_frac_below_genuine_p95": 0.919150641025641,
+      "impostor_mean": 0.12707369698072216,
+      "impostor_p05": 0.07390798674744964,
+      "impostor_std": 0.03715218943601472,
+      "n_genuine_pairs": 240,
+      "n_impostor_pairs": 12480
+    },
+    "3": {
+      "auc_genuine_closer": 0.5897806490384615,
+      "genuine_mean": 0.11561080340065556,
+      "genuine_p95": 0.18907128550672458,
+      "genuine_std": 0.03935802817685539,
+      "impostor_frac_below_genuine_p95": 0.9435897435897436,
+      "impostor_mean": 0.12592054451181828,
+      "impostor_p05": 0.07429709573560357,
+      "impostor_std": 0.03570995079314292,
+      "n_genuine_pairs": 240,
+      "n_impostor_pairs": 12480
+    },
+    "4": {
+      "auc_genuine_closer": 0.5901068376068376,
+      "genuine_mean": 0.12088515944137936,
+      "genuine_p95": 0.1867949379935128,
+      "genuine_std": 0.03722923333726963,
+      "impostor_frac_below_genuine_p95": 0.8959134615384615,
+      "impostor_mean": 0.1331909058293133,
+      "impostor_p05": 0.07513368447467314,
+      "impostor_std": 0.03907947658027125,
+      "n_genuine_pairs": 240,
+      "n_impostor_pairs": 12480
+    }
+  },
+  "target_from_prior_manuscript": {
+    "genuine": 0.053,
+    "impostor": 0.14,
+    "reproduced": false
+  }
+}

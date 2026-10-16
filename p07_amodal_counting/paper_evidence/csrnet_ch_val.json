@@ -1,0 +1,17 @@
+{
+  "schema": "dhi.amodal.csrnet-ch-val.v1",
+  "official_weights_path": null,
+  "official_weights_present": false,
+  "n_usable_non_eval": 4220,
+  "n_train": 3376,
+  "n_test": 844,
+  "n_eval_ids_excluded": 150,
+  "claim_scope": "crowdhuman_val_holdout_not_shanghaitech_leaderboard",
+  "status": "ok",
+  "device": "cuda",
+  "final_train_mse": 0.0014856733614578843,
+  "density_mae": 36.05963190793991,
+  "density_mae_sd": 30.581536939544264,
+  "mean_true": 25.15,
+  "note": "RGB 64x64 dilated stack trained on CrowdHuman val minus G1-03 eval ids. Official ShanghaiTech CSRNet weights were not used (present=False)."
+}

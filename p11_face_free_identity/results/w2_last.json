@@ -1,0 +1,128 @@
+{
+ "doc": "Item 11.2: zero-shot evaluation of the MEVID-trained encoders on the official LaST test protocol (10,176 query images,\n125,353 gallery images including the unlabelled distractor folder 000000; 5,805 query identities; dataset page\ngithub.com/shuxjweb/last, public Google Drive download, 'academic research use only', no form). Protocol as in the dataset\nauthors' loader (data/datasets/last.py and eval_reid.py): every image has a unique camera id, so no gallery image is junk and\na gallery image is correct when its identity equals the query's. Rank-1/5/10/20 and mAP; raw cosine only (a k-reciprocal\nrerank over 135k images is outside this study's budget).\nPRE-REGISTERED BEFORE THE FIRST RUN (2026-10-07, wave 2):\n   H1 (positive control): this script's vectorised metrics equal the unmodified Simple-CCReID evaluate() on a random\n      subset of 300 queries (max abs difference of mAP and Rank-1 below 1e-9). FALSIFIED otherwise.\n   H2 (non-trivial transfer): Rank-1 exceeds the Rank-1 of a random ranking (identity-prior chance) by at least 20\n      percentage points for both encoders. FALSIFIED otherwise. (No training on LaST; a transfer measurement only.)\nIntervals: identity-cluster bootstrap (2,000 resamples) over query identities.\nusage: python3 -I w2_last.py PULLED_DIR   (last_s0.npz, last_s1.npz)\nOutputs results/w2_last.json.\n",
+ "encoders": {
+  "s0": {
+   "chance_rank1": 0.0001584197609598293,
+   "mAP": {
+    "ci": [
+     0.16905068321954955,
+     0.1777229375452717
+    ],
+    "n_den": 10176.0,
+    "n_identities": 5805,
+    "point": 0.17353400540590214
+   },
+   "n_gallery": 125353,
+   "n_query": 10176,
+   "n_query_identities": 5805,
+   "n_valid_queries": 10176,
+   "positive_control": {
+    "max_abs_diff_mAP": 1.70140540545205e-10,
+    "max_abs_diff_rank1": 0.0,
+    "n_queries": 300
+   },
+   "rank1": {
+    "ci": [
+     0.5550078805557227,
+     0.5751268904166763
+    ],
+    "n_den": 10176.0,
+    "n_identities": 5805,
+    "point": 0.565251572327044
+   },
+   "rank10": {
+    "ci": [
+     0.7306620301484501,
+     0.7482538422673429
+    ],
+    "n_den": 10176.0,
+    "n_identities": 5805,
+    "point": 0.7394850628930818
+   },
+   "rank20": {
+    "ci": [
+     0.7705555726009464,
+     0.7869544427148858
+    ],
+    "n_den": 10176.0,
+    "n_identities": 5805,
+    "point": 0.7788915094339622
+   },
+   "rank5": {
+    "ci": [
+     0.6919507286208725,
+     0.7095524715898701
+    ],
+    "n_den": 10176.0,
+    "n_identities": 5805,
+    "point": 0.7011595911949685
+   }
+  },
+  "s1": {
+   "chance_rank1": 0.0001584197609598293,
+   "mAP": {
+    "ci": [
+     0.16903296148504945,
+     0.1776896693520998
+    ],
+    "n_den": 10176.0,
+    "n_identities": 5805,
+    "point": 0.1735190848644858
+   },
+   "n_gallery": 125353,
+   "n_query": 10176,
+   "n_query_identities": 5805,
+   "n_valid_queries": 10176,
+   "positive_control": {
+    "max_abs_diff_mAP": 1.9639165294016436e-10,
+    "max_abs_diff_rank1": 0.0,
+    "n_queries": 300
+   },
+   "rank1": {
+    "ci": [
+     0.5612890667344272,
+     0.581261934618669
+    ],
+    "n_den": 10176.0,
+    "n_identities": 5805,
+    "point": 0.5713443396226415
+   },
+   "rank10": {
+    "ci": [
+     0.7294778965284052,
+     0.747263852249823
+    ],
+    "n_den": 10176.0,
+    "n_identities": 5805,
+    "point": 0.7387971698113207
+   },
+   "rank20": {
+    "ci": [
+     0.7695758668242711,
+     0.786043381097036
+    ],
+    "n_den": 10176.0,
+    "n_identities": 5805,
+    "point": 0.7780070754716981
+   },
+   "rank5": {
+    "ci": [
+     0.6888925142227295,
+     0.7076762840671069
+    ],
+    "n_den": 10176.0,
+    "n_identities": 5805,
+    "point": 0.6987028301886793
+   }
+  }
+ },
+ "hypotheses": {
+  "H1_holds": true,
+  "H1_max_abs_diff": 1.9639165294016436e-10,
+  "H2_rank1_above_chance_by_20pts": {
+   "s0": true,
+   "s1": true
+  }
+ },
+ "runtime_s": 76.75179052352905
+}

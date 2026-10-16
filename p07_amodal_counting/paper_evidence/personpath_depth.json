@@ -1,0 +1,18 @@
+{
+  "schema": "dhi.amodal.personpath-depth.v1",
+  "root": "DATASETS/personpath22/annotation",
+  "inspect": {
+    "personpath_layout": true,
+    "n_videos_joined": 236,
+    "n_joined_boxes": 741077,
+    "n_amodal_files": 236
+  },
+  "depth_order_confound": {
+    "frames": 41120,
+    "people": 741077,
+    "frames_with_two_or_more_people": 40631,
+    "bottom_edge_rank_inversions": 31408,
+    "inversion_rate": 0.7730058329846669,
+    "note": "PersonPath amodal vs visible y2 ranking. Same definition as CrowdHuman 248/270."
+  }
+}

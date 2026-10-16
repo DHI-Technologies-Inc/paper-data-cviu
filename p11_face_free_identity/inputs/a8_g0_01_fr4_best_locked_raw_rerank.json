@@ -1,0 +1,338 @@
+{
+  "learned_general": {
+    "rank1": 0.7151898734177216,
+    "rank5": 0.8132911392405063,
+    "mAP": 0.4108618007585156,
+    "num_valid_queries": 316,
+    "num_queries": 316
+  },
+  "learned_cc": {
+    "rank1": 0.10211267605633803,
+    "rank5": 0.22535211267605634,
+    "mAP": 0.0934381478568188,
+    "num_valid_queries": 284,
+    "num_queries": 316
+  },
+  "learned_reranked_general": {
+    "rank1": 0.7056962025316456,
+    "rank5": 0.7816455696202531,
+    "mAP": 0.4833332251310304,
+    "num_valid_queries": 316,
+    "num_queries": 316
+  },
+  "learned_reranked_cc": {
+    "rank1": 0.1443661971830986,
+    "rank5": 0.20774647887323944,
+    "mAP": 0.13138733535590214,
+    "num_valid_queries": 284,
+    "num_queries": 316
+  },
+  "_evidence": {
+    "schema": "facefree-reid.evaluation-evidence.v1",
+    "protocol": {
+      "status": "verified",
+      "lock_id": "mevid-v1-official-test-2026-08-16",
+      "lock_file": {
+        "name": "mevid_v1_protocol.lock.json",
+        "size_bytes": 2731,
+        "sha256": "ea095c4106730f5de0c339b8e5e9eed0a35018559f0b6d59791091b2d1f66d79"
+      },
+      "snapshot": {
+        "schema": "facefree-reid.mevid-protocol-snapshot.v1",
+        "files": {
+          "manifest": {
+            "name": "manifest_test.csv",
+            "size_bytes": 38015586,
+            "sha256": "19ad310cd50ae64aa45adb3d0ef9a582deb4aa6a614a39ca900341b2f3ece9cc"
+          },
+          "query_index": {
+            "name": "query_IDX.txt",
+            "size_bytes": 7900,
+            "sha256": "b45396223e59615da343f6434aa39d86647634d70d1e683c600cb1628b1e37db"
+          },
+          "track_test_info": {
+            "name": "track_test_info.txt",
+            "size_bytes": 219250,
+            "sha256": "6e6f88adcabd2b2dee929ad4963ece1b63d0a77957f0b226eb47b58c9c20656b"
+          },
+          "test_name": {
+            "name": "test_name.txt",
+            "size_bytes": 32028777,
+            "sha256": "18766316c027738fd2c7c60f478d52cbaf53a353a7241d820a96996c7bd3721a"
+          }
+        },
+        "manifest": {
+          "row_count": 1754,
+          "frame_reference_count": 1186251,
+          "split_counts": {
+            "gallery": 1438,
+            "query": 316
+          },
+          "identity_counts": {
+            "all": 54,
+            "query": 52,
+            "gallery": 54
+          },
+          "eligibility": {
+            "general_valid_queries": 316,
+            "different_clothes_valid_queries": 284
+          }
+        },
+        "query_index": {
+          "index_base": 0,
+          "count": 316,
+          "min": 0,
+          "max": 1752,
+          "ordered_indices_sha256": "28619e048506147715c68a60cccc38e42ca628ec7d44eaa4e6c4736f843bfe0b"
+        },
+        "binding": {
+          "all_track_rows_matched": true,
+          "all_frame_names_matched": true,
+          "query_split_and_order_matched": true,
+          "gallery_complement_and_order_matched": true,
+          "record_count": 1754,
+          "records_sha256": "b7069a9fe9e148425227a651376e2ea2cf265781e843121080ebbd58547c8423"
+        },
+        "semantics": {
+          "general": "positive=same_identity_and_different_camera; junk=same_identity_and_same_camera",
+          "different_clothes": "positive=same_identity_and_different_camera_and_different_outfit; junk=same_identity_and_(same_camera_or_same_outfit)",
+          "metric": "cmc_rank1_rank5_and_mean_average_precision_over_valid_queries"
+        }
+      }
+    },
+    "evaluator": {
+      "files": {
+        "eval_reid": {
+          "name": "eval_reid.py",
+          "size_bytes": 21604,
+          "sha256": "9b8dca65d5c8fe3669483dc35a4a3dfe66f7327bdc38e4514b357c8238cdc1ff"
+        },
+        "baseline": {
+          "name": "baseline.py",
+          "size_bytes": 2450,
+          "sha256": "a80454d135f193ab3229dd3e66655fe264620985ba30d5da3754303cd3a246c3"
+        },
+        "config_validation": {
+          "name": "config_validation.py",
+          "size_bytes": 30565,
+          "sha256": "ba2338f9b203f041e97ac61b4a26b4b7af37fc11a062e513be4a9960b675229f"
+        },
+        "csci_color": {
+          "name": "csci_color.py",
+          "size_bytes": 9989,
+          "sha256": "0462343bfa555c4a8cac4136092c53074367c8c8bfcda4f0c59a0fa3244c5a2e"
+        },
+        "device": {
+          "name": "device.py",
+          "size_bytes": 774,
+          "sha256": "91e3845153de4ceb6f6d6bfe18fb1fbda843134b9bc0f58ce3f135dbeb042b8a"
+        },
+        "eval_metrics": {
+          "name": "eval_metrics.py",
+          "size_bytes": 5055,
+          "sha256": "426b9302bed1131c41244bea9092c4ff6a4e5a871ebf240a3570dbb88b9850cf"
+        },
+        "hamobe_moe": {
+          "name": "hamobe_moe.py",
+          "size_bytes": 15213,
+          "sha256": "7c1f50ac3b7fb23b485465df230fde27d417f98358a5bf326d9205d8178ee40e"
+        },
+        "identity": {
+          "name": "identity.py",
+          "size_bytes": 10843,
+          "sha256": "a04fc747f8881e968a3c2b97c2b7338c5379f0cfb3b6195530f1cf23a136019d"
+        },
+        "mevid": {
+          "name": "mevid.py",
+          "size_bytes": 50418,
+          "sha256": "c56fa65e37fe067955cd412e632dc5bd0dcb1f979106aebbb878b83edafaf098"
+        },
+        "model": {
+          "name": "model.py",
+          "size_bytes": 31415,
+          "sha256": "b41dd8ecd59040e5e75b5fc5a074091584b51b7545cad222452014a80cba6c5b"
+        },
+        "protocol_lock": {
+          "name": "protocol_lock.py",
+          "size_bytes": 18913,
+          "sha256": "d92d00fdfef7b30ab1d24a3b6b1b238c99e0d5b407ec546f6e9eebb0d47f6f5b"
+        },
+        "temporal_agg": {
+          "name": "temporal_agg.py",
+          "size_bytes": 10537,
+          "sha256": "4d5ef8a7056636069c0eba5f52be67343214e1bd32b052307c7b345b1454cee7"
+        },
+        "vit_internals": {
+          "name": "vit_internals.py",
+          "size_bytes": 10801,
+          "sha256": "9c7e89940836d715c1a137d953d3fd80a3ef3352c235a79eaf1822f320f24083"
+        },
+        "rerank": {
+          "name": "rerank.py",
+          "size_bytes": 11825,
+          "sha256": "364ee700e596a0a63003c1008a982cec7574b98ce1b8c8c4a8450ad7c9c95bfb"
+        }
+      },
+      "bundle_sha256": "3b876d9cc888e13e643a95f20561a21e728356fef787fba25413eec89e54895c"
+    },
+    "checkpoint": {
+      "status": "loaded",
+      "file": {
+        "name": "best.pt",
+        "size_bytes": 1354963389,
+        "sha256": "d2fe45ea81551c680a6a2be845364a7dcf48a5e3e450d90fda459423864d213a"
+      },
+      "step": 15000,
+      "loss": 0.814336359500885,
+      "model_config": {
+        "embedding_dim": 512,
+        "num_identities": 100,
+        "num_clothes": 0,
+        "backbone": "eva02_large_patch14_448.mim_in22k_ft_in22k",
+        "aux_cue_dim": 0,
+        "pretrained_backbone": true,
+        "freeze_ratio": 0.25,
+        "lora_rank": 32,
+        "grad_checkpointing": true,
+        "backbone_img_size": 224,
+        "temporal_agg": "mean",
+        "temporal_agg_depth": 2,
+        "temporal_agg_heads": 8,
+        "temporal_agg_dropout": 0.1,
+        "temporal_agg_max_len": 32,
+        "temporal_agg_use_pos_embedding": true,
+        "gem_p": 3.0,
+        "gem_p_learnable": false,
+        "use_color_token": false,
+        "color_hist_bins": 16,
+        "use_hamobe_moe": false,
+        "hamobe_layer_indices": [],
+        "hamobe_short_term_window": 2,
+        "hamobe_expert_hidden_dim": 0,
+        "hamobe_freeze_backbone": true
+      },
+      "model_config_sha256": "855cf4bc1c5818261fa9512dfcc9033743f3da2ae47cf451917cc80e843bdde9",
+      "train_args": {
+        "manifest": "/root/mevid_extracted/manifest_train.csv",
+        "frames_root": "/root/mevid_extracted/bbox_train",
+        "split": "train",
+        "out": "/root/ckpt_a8_fr4mean",
+        "ckpt_dir": "/root/ckpt_a8_fr4mean/ckpt",
+        "ckpt_every": 2500,
+        "keep_last_n": 1,
+        "batch_size": 16,
+        "num_instances": 4,
+        "positive_mode": "cross_outfit",
+        "num_workers": 4,
+        "image_size": 224,
+        "batches_per_epoch": 200,
+        "frames_per_tracklet": 4,
+        "temporal_agg": "mean",
+        "temporal_agg_depth": 2,
+        "temporal_agg_heads": 8,
+        "temporal_agg_dropout": 0.1,
+        "temporal_agg_max_len": 32,
+        "temporal_agg_use_pos_embedding": true,
+        "gem_p": 3.0,
+        "gem_p_learnable": false,
+        "embedding_dim": 512,
+        "backbone": "eva02_large_patch14_448.mim_in22k_ft_in22k",
+        "pretrained_backbone": true,
+        "freeze_ratio": 0.25,
+        "lora_rank": 32,
+        "grad_checkpointing": true,
+        "use_classifier": true,
+        "margin": 0.3,
+        "xent_weight": 1.0,
+        "use_cal": false,
+        "cal_warmup_step": 6500,
+        "cal_weight": 1.0,
+        "cal_eps": 0.1,
+        "clothes_xent_weight": 1.0,
+        "use_color_token": false,
+        "color_hist_bins": 16,
+        "color_hist_weight": 1.0,
+        "color_ortho_weight": 0.1,
+        "use_hamobe_moe": false,
+        "hamobe_layer_indices": "",
+        "hamobe_short_term_window": 2,
+        "hamobe_expert_hidden_dim": 0,
+        "hamobe_freeze_backbone": true,
+        "lr": 0.0001,
+        "weight_decay": 0.0005,
+        "max_steps": 20000,
+        "lr_schedule": "constant",
+        "warmup_steps": 1000,
+        "lr_min_ratio": 0.01,
+        "wsd_decay_frac": 0.2,
+        "grad_clip": 0.0,
+        "device": "auto",
+        "bf16": true,
+        "log_every": 100,
+        "seed": 0,
+        "resume": "/root/ckpt_a8_fr4mean/ckpt/step00002500.pt",
+        "val_manifest": null,
+        "val_frames_root": null,
+        "eval_every": 0,
+        "val_metric": "rank1",
+        "_warmup_steps_explicit": false
+      },
+      "train_args_sha256": "80d38205871df3fc4fe66281395b3045b516925fa5f9ef73cd18d3074f68d1e1"
+    },
+    "environment": {
+      "python": "3.12.13",
+      "packages": {
+        "numpy": "2.4.6",
+        "pillow": "12.2.0",
+        "torch": "2.12.0+cu130",
+        "torchvision": "0.27.0+cu130",
+        "timm": "1.0.28",
+        "peft": "0.20.0"
+      },
+      "torch_cuda_version": "13.0",
+      "resolved_device": "cuda",
+      "cuda_device_name": "NVIDIA GeForce RTX 5060 Ti"
+    },
+    "execution": {
+      "query_split": "query",
+      "gallery_split": "gallery",
+      "image_size": 224,
+      "frames_per_tracklet": 4,
+      "frames_per_tracklet_source": "--frames-per-tracklet",
+      "max_rank": 5,
+      "device_request": "cuda"
+    },
+    "operating_points": {
+      "learned_general": {
+        "protocol": "general",
+        "distance": "raw_cosine",
+        "postprocessing": "none"
+      },
+      "learned_reranked_general": {
+        "protocol": "general",
+        "distance": "k_reciprocal_reranked_cosine",
+        "postprocessing": {
+          "name": "k_reciprocal",
+          "k1": 20,
+          "k2": 6,
+          "lambda": 0.3
+        }
+      },
+      "learned_cc": {
+        "protocol": "cc",
+        "distance": "raw_cosine",
+        "postprocessing": "none"
+      },
+      "learned_reranked_cc": {
+        "protocol": "cc",
+        "distance": "k_reciprocal_reranked_cosine",
+        "postprocessing": {
+          "name": "k_reciprocal",
+          "k1": 20,
+          "k2": 6,
+          "lambda": 0.3
+        }
+      }
+    }
+  }
+}

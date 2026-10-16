@@ -1,0 +1,32 @@
+{
+  "instance_id": "[cloud-instance]",
+  "zip_path": "DATASETS/personpath22/raw_data/videos.zip",
+  "zip_bytes": 12244881784,
+  "n_members_in_zip": 181,
+  "n_extracted": 20,
+  "dest": "DATASETS/personpath22/raw_data/videos_sample20",
+  "first_20_names": [
+    "uid_vid_00000.mp4",
+    "uid_vid_00001.mp4",
+    "uid_vid_00002.mp4",
+    "uid_vid_00003.mp4",
+    "uid_vid_00004.mp4",
+    "uid_vid_00005.mp4",
+    "uid_vid_00006.mp4",
+    "uid_vid_00007.mp4",
+    "uid_vid_00008.mp4",
+    "uid_vid_00009.mp4",
+    "uid_vid_00010.mp4",
+    "uid_vid_00011.mp4",
+    "uid_vid_00012.mp4",
+    "uid_vid_00013.mp4",
+    "uid_vid_00014.mp4",
+    "uid_vid_00015.mp4",
+    "uid_vid_00016.mp4",
+    "uid_vid_00017.mp4",
+    "uid_vid_00018.mp4",
+    "uid_vid_00019.mp4"
+  ],
+  "method": "zipfile partial extract (fetch_personpath22.py skipped to avoid aws s3 sync)",
+  "df_after": "overlay 110G 51G 60G 47% /"
+}

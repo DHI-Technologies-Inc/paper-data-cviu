@@ -1,0 +1,80 @@
+{
+  "schema": "facefree-reid.mevid-protocol-lock.v1",
+  "lock_id": "mevid-v1-official-test-2026-08-16",
+  "dataset": {
+    "name": "MEVID",
+    "version": "v1",
+    "official_repository": "https://github.com/Kitware/MEVID",
+    "official_repository_commit": "b793f4c5e3c99a36d11b7397335fce5d720abc84",
+    "reference_sources": {
+      "AP3D/tools/eval_metrics.py": {
+        "git_blob": "71b08f",
+        "sha256": "63ae372e1798c07a72fbc547ade61f0947f30ffcd9340896d02239201dab86c3"
+      },
+      "AP3D/tools/data_manager.py": {
+        "git_blob": "637ad8",
+        "sha256": "ff8268f33c76f27642771d1a666b294a198a1eb14c47b58e129b019456c7627f"
+      }
+    },
+    "annotation_license_status": "unresolved_specific_annotation_layer_license",
+    "claim_limit": "This lock proves protocol identity and does not grant or imply commercial annotation rights."
+  },
+  "expected_snapshot": {
+    "schema": "facefree-reid.mevid-protocol-snapshot.v1",
+    "files": {
+      "manifest": {
+        "name": "manifest_test.csv",
+        "size_bytes": 38015586,
+        "sha256": "19ad310cd50ae64aa45adb3d0ef9a582deb4aa6a614a39ca900341b2f3ece9cc"
+      },
+      "query_index": {
+        "name": "query_IDX.txt",
+        "size_bytes": 7900,
+        "sha256": "b45396223e59615da343f6434aa39d86647634d70d1e683c600cb1628b1e37db"
+      },
+      "track_test_info": {
+        "name": "track_test_info.txt",
+        "size_bytes": 219250,
+        "sha256": "6e6f88adcabd2b2dee929ad4963ece1b63d0a77957f0b226eb47b58c9c20656b"
+      },
+      "test_name": {
+        "name": "test_name.txt",
+        "size_bytes": 32028777,
+        "sha256": "18766316c027738fd2c7c60f478d52cbaf53a353a7241d820a96996c7bd3721a"
+      }
+    },
+    "manifest": {
+      "row_count": 1754,
+      "frame_reference_count": 1186251,
+      "split_counts": {
+        "gallery": 1438,
+        "query": 316
+      },
+      "identity_counts": {
+        "all": 54,
+        "query": 52,
+        "gallery": 54
+      },
+      "eligibility": {
+        "general_valid_queries": 316,
+        "different_clothes_valid_queries": 284
+      }
+    },
+    "query_index": {
+      "index_base": 0,
+      "count": 316
+    },
+    "binding": {
+      "all_track_rows_matched": true,
+      "all_frame_names_matched": true,
+      "query_split_and_order_matched": true,
+      "gallery_complement_and_order_matched": true,
+      "record_count": 1754
+    },
+    "semantics": {
+      "general": "positive=same_identity_and_different_camera; junk=same_identity_and_same_camera",
+      "different_clothes": "positive=same_identity_and_different_camera_and_different_outfit; junk=same_identity_and_(same_camera_or_same_outfit)",
+      "metric": "cmc_rank1_rank5_and_mean_average_precision_over_valid_queries"
+    }
+  }
+}

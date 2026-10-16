@@ -1,0 +1,70 @@
+{
+  "schema": "dhi.amodal.depth-order-fix.v1",
+  "default_unchanged": "y2",
+  "claim_scope": "ranking_diagnosis_plus_height_alternative_not_g1_03_reopen",
+  "crowdhuman": {
+    "vbox_y2_vs_fbox_y2": {
+      "images": 4370,
+      "people": 103115,
+      "images_with_two_or_more_people": 4370,
+      "bottom_edge_rank_inversions": 3938,
+      "inversion_rate": 0.9011441647597254,
+      "note": "vbox vs fbox y2 ranking. An inversion means visible-box depth order disagrees with full-box depth order on that image."
+    },
+    "vbox_height_vs_fbox_y2": {
+      "images_or_frames": 4370,
+      "people": 103115,
+      "comparable": 4370,
+      "inversions": 4225,
+      "inversion_rate": 0.9668192219679634
+    },
+    "vbox_height_vs_fbox_height": {
+      "images_or_frames": 4370,
+      "people": 103115,
+      "comparable": 4370,
+      "inversions": 3948,
+      "inversion_rate": 0.9034324942791762
+    }
+  },
+  "personpath": {
+    "vbox_y2_vs_fbox_y2": {
+      "images_or_frames": 41120,
+      "people": 741077,
+      "comparable": 40631,
+      "inversions": 31408,
+      "inversion_rate": 0.7730058329846669
+    },
+    "vbox_height_vs_fbox_y2": {
+      "images_or_frames": 41120,
+      "people": 741077,
+      "comparable": 40631,
+      "inversions": 38532,
+      "inversion_rate": 0.9483399374861559
+    },
+    "vbox_height_vs_fbox_height": {
+      "images_or_frames": 41120,
+      "people": 741077,
+      "comparable": 40631,
+      "inversions": 34880,
+      "inversion_rate": 0.858457827766976
+    }
+  },
+  "synth_peer_order": {
+    "n_eval": 40,
+    "seed": 0,
+    "rows": [
+      {
+        "depth_mode": "y2",
+        "mae_raw": 0.0,
+        "mae_corrected": 13.410898152845004
+      },
+      {
+        "depth_mode": "height",
+        "mae_raw": 0.0,
+        "mae_corrected": 14.762447264935949
+      }
+    ]
+  },
+  "crowdhuman_height_beats_y2_on_inversions": false,
+  "default_decision": "y2_still_lower_or_tied_default_stays"
+}

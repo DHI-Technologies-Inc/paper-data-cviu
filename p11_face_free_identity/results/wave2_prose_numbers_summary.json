@@ -1,0 +1,204 @@
+{
+ "rows": [
+  {
+   "macro": "nFmYcCSa",
+   "value": "10.6",
+   "json_path": "seeds/s0/variants/yunet/cc/mAP",
+   "typed_before": "10.6",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nFmNcCSa",
+   "value": "11.1",
+   "json_path": "seeds/s0/variants/none/cc/mAP",
+   "typed_before": "11.1",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nFmProbeLoSa",
+   "value": "67.4",
+   "json_path": "seeds/s0/variants/*/camera_probe/accuracy (min)",
+   "typed_before": "67.4",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nFmProbeHiSa",
+   "value": "72.1",
+   "json_path": "seeds/s0/variants/*/camera_probe/accuracy (max)",
+   "typed_before": "72.1",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nFmYcCSb",
+   "value": "9.3",
+   "json_path": "seeds/s1/variants/yunet/cc/mAP",
+   "typed_before": "9.3",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nFmNcCSb",
+   "value": "12.5",
+   "json_path": "seeds/s1/variants/none/cc/mAP",
+   "typed_before": "12.5",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nFmProbeLoSb",
+   "value": "67.8",
+   "json_path": "seeds/s1/variants/*/camera_probe/accuracy (min)",
+   "typed_before": "67.4",
+   "status": "MISMATCH"
+  },
+  {
+   "macro": "nFmProbeHiSb",
+   "value": "71.3",
+   "json_path": "seeds/s1/variants/*/camera_probe/accuracy (max)",
+   "typed_before": "72.1",
+   "status": "MISMATCH"
+  },
+  {
+   "macro": "nFmMaj",
+   "value": "31.5",
+   "json_path": "seeds/s0/variants/none/camera_probe/majority_rate",
+   "typed_before": "31.5",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nRsFpSixteenSa",
+   "value": "-0.0004",
+   "json_path": "encoders/s0/grid/d512|float16/general/mAP_diff_vs_float32_512/diff",
+   "typed_before": "-0.0004",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nRsEightIntSa",
+   "value": "0.0020",
+   "json_path": "encoders/s0/grid/d512|int8/general/mAP_diff_vs_float32_512/diff",
+   "typed_before": "0.0020",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nRsDimPointsSa",
+   "value": "0.7",
+   "json_path": "encoders/s0/grid/d128|float32/general/mAP_diff_vs_float32_512/diff (abs)",
+   "typed_before": "0.7",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nRsBitPointsSa",
+   "value": "3.3",
+   "json_path": "encoders/s0/grid/d512|bit1/general/mAP_diff_vs_float32_512/diff (abs)",
+   "typed_before": "3.3",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nRsGalPointsSa",
+   "value": "9.5",
+   "json_path": "encoders/s0/H4_mAP_full_minus_5pct_gallery/diff (abs)",
+   "typed_before": "9.5",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nRsFpSixteenSb",
+   "value": "-0.0002",
+   "json_path": "encoders/s1/grid/d512|float16/general/mAP_diff_vs_float32_512/diff",
+   "typed_before": "-0.0002",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nRsEightIntSb",
+   "value": "-0.0144",
+   "json_path": "encoders/s1/grid/d512|int8/general/mAP_diff_vs_float32_512/diff",
+   "typed_before": "-0.0144",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nRsDimPointsSb",
+   "value": "0.9",
+   "json_path": "encoders/s1/grid/d128|float32/general/mAP_diff_vs_float32_512/diff (abs)",
+   "typed_before": "0.9",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nRsBitPointsSb",
+   "value": "3.7",
+   "json_path": "encoders/s1/grid/d512|bit1/general/mAP_diff_vs_float32_512/diff (abs)",
+   "typed_before": "3.7",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nRsGalPointsSb",
+   "value": "9.8",
+   "json_path": "encoders/s1/H4_mAP_full_minus_5pct_gallery/diff (abs)",
+   "typed_before": "9.8",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nRsBytesInt",
+   "value": "132",
+   "json_path": "encoders/s0/grid/d128|int8/bytes_per_tracklet",
+   "typed_before": "132",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nRsBytesFloat",
+   "value": "2{,}048",
+   "json_path": "encoders/s0/grid/d512|float32/bytes_per_tracklet = 2048",
+   "typed_before": "2{,}048",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nRsBytesBit",
+   "value": "64",
+   "json_path": "encoders/s0/grid/d512|bit1/bytes_per_tracklet",
+   "typed_before": "64",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nRsRankGap",
+   "value": "2.2",
+   "json_path": "max over seeds of |encoders/*/grid/d128|int8/general/rank1_diff_vs_float32_512/diff|",
+   "typed_before": "2.2",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nPtCenZeroSa",
+   "value": "+1.8",
+   "json_path": "encoders/s0/cells/wrong|C1|0.0/general/mAP_diff_vs_appearance/diff",
+   "typed_before": "+1.8",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nPtExcZeroSa",
+   "value": "+3.3",
+   "json_path": "encoders/s0/cells/wrong|C3|0.0/general/mAP_diff_vs_appearance/diff",
+   "typed_before": "+3.3",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nPtCenHalfSa",
+   "value": "+0.8",
+   "json_path": "encoders/s0/cells/wrong|C1|0.5/general/mAP_diff_vs_appearance/diff",
+   "typed_before": "+0.8",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nPtExcHalfSa",
+   "value": "-4.8",
+   "json_path": "encoders/s0/cells/wrong|C3|0.5/general/mAP_diff_vs_appearance/diff",
+   "typed_before": "-4.8",
+   "status": "MATCH"
+  },
+  {
+   "macro": "nPtExcAllSa",
+   "value": "-7.9",
+   "json_path": "encoders/s0/cells/wrong|C3|1.0/general/mAP_diff_vs_appearance/diff",
+   "typed_before": "-7.9",
+   "status": "MATCH"
+  }
+ ],
+ "mismatch": [
+  "nFmProbeLoSb",
+  "nFmProbeHiSb"
+ ]
+}

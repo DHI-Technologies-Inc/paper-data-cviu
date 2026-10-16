@@ -1,0 +1,21 @@
+{
+  "schema": "dhi.amodal.csrnet-style-synth.v1",
+  "claim_scope": "synthetic_rendered_dilated_stack_not_shanghaitech_weights",
+  "architecture": "4-layer dilated conv, 16-wide, trained 40 epochs on rendered 64x64 maps",
+  "n_parameters": 4817,
+  "device": "cpu",
+  "crowding": 0.6,
+  "n_train": 80,
+  "n_eval": 40,
+  "seed": 0,
+  "final_train_mse": 0.00016212409536819905,
+  "density_mae": 9.640938520431519,
+  "density_mae_sd": 3.884091216867607,
+  "naive_mae": 2.975,
+  "ht": {
+    "naive_mae": 2.975,
+    "ht_mae": 2.3825138936600987,
+    "n_eval": 40
+  },
+  "note": "Input is a raster of detections, not RGB. This tests whether a dilated density head beats Horvitz-Thompson on the same synth worlds. It is not CSRNet on CrowdHuman or ShanghaiTech."
+}
